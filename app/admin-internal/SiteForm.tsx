@@ -42,7 +42,9 @@ export default function SiteForm({ action, initial, submitLabel }: Props) {
       </div>
 
       <div>
-        <span className="block text-sm text-[#a89a8c] mb-2">Cor de fundo</span>
+        <span className="block text-sm text-[#a89a8c] mb-2">
+          Cor de fundo (usada só até você enviar um screenshot)
+        </span>
         <input type="hidden" name="color" value={color} />
         <div className="flex flex-wrap gap-2">
           {PALETTE.map((p) => (
@@ -63,7 +65,8 @@ export default function SiteForm({ action, initial, submitLabel }: Props) {
 
       <div>
         <label className="block text-sm text-[#a89a8c] mb-2" htmlFor="image">
-          Screenshot do site {initial?.imageUrl && "(enviar substitui a atual)"}
+          Screenshot do site (recomendado){" "}
+          {initial?.imageUrl && "— enviar substitui a atual"}
         </label>
         <input
           id="image"

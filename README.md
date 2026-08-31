@@ -45,3 +45,19 @@ interna `/admin-internal` é bloqueada diretamente — só é alcançada atravé
    `BLOB_READ_WRITE_TOKEN` de produção no ambiente (ex. via
    `vercel env pull .env.production.local` e ajustando o script), ou
    cadastrando manualmente pelo admin em produção.
+
+## Screenshots das homes
+
+Os tiles do grid usam um screenshot real da home de cada site (em vez de
+cor sólida). Pra capturar/atualizar automaticamente todas as homes
+cadastradas:
+
+```bash
+npx playwright install chromium   # só na primeira vez
+npm run capture-screenshots
+```
+
+Isso navega até o `liveUrl` de cada case, tira um screenshot e sobrescreve
+o `imageUrl` de cada um. Também dá pra enviar um screenshot manual (print,
+recorte específico) direto pelo formulário do admin — o upload manual tem
+prioridade até rodar o script de novo.

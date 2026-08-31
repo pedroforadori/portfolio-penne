@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh repo *)",
+      "Bash(curl -s \"https://api.github.com/users/pedroforadori/repos?per_page=100\")",
+      "Bash(curl -s \"https://api.github.com/users/pedroforadori/repos?per_page=100&sort=updated\")",
+      "Bash(python3 -c ' *)",
+      "Bash(brew --version)",
+      "Bash(brew install *)",
+      "Bash(curl -sL \"https://api.github.com/repos/cli/cli/releases/latest\" -o gh_release.json)",
+      "Bash(curl -sL \"https://github.com/cli/cli/releases/download/v2.98.0/gh_2.98.0_macOS_amd64.zip\" -o gh.zip)",
+      "Bash(unzip -q gh.zip)",
+      "Bash(SCRATCH=/private/tmp/claude-501/-Users-pedroforadori-www-app-penne/8a50c961-e238-46ee-bc66-a368111cede4/scratchpad *)",
+      "Read(//usr/local/bin/**)",
+      "Bash(cp /private/tmp/claude-501/-Users-pedroforadori-www-app-penne/8a50c961-e238-46ee-bc66-a368111cede4/scratchpad/gh_2.98.0_macOS_amd64/bin/gh /usr/local/bin/gh)",
+      "Bash(chmod +x /usr/local/bin/gh)",
+      "Bash(gh --version)",
+      "Bash(gh auth *)",
+      "Bash(npx --yes vercel@latest whoami)",
+      "Bash(npx --yes vercel@latest project ls)",
+      "Bash(npx --yes vercel@latest inspect web-gabivini)",
+      "Bash(npx --yes vercel@latest alias ls)",
+      "Bash(npx --yes vercel@latest ls web-pennewedding-slyy)",
+      "Bash(npx --yes vercel@latest ls wedding-ferafa)",
+      "Bash(npx --yes vercel@latest alias set https://wedding-ferafa-41i9kfgsz-pedroforadoris-projects.vercel.app wedding-ferafa.vercel.app)",
+      "Bash(npx --yes vercel@latest alias set https://web-pennewedding-imhrfdn6b-pedroforadori.vercel.app penne-wedding.vercel.app)",
+      "Bash(npx --yes create-next-app@latest . --typescript --tailwind --eslint --app --src-dir=false --import-alias \"@/*\" --use-npm --no-turbopack)",
+      "Bash(npm view *)",
+      "Bash(rm -rf node_modules package.json package-lock.json .git 2>/dev/null; ls -la *)",
+      "Bash(npx --yes create-next-app@16.3.3 . --typescript --tailwind --eslint --app --src-dir=false --import-alias \"@/*\" --use-npm --no-turbopack)"
+    ],
+    "additionalDirectories": [
+      "/Users/pedroforadori/www/app-penne"
+    ]
+  }
+}

@@ -22,8 +22,8 @@ export default async function AdminPage() {
 
         {isUsingMemoryFallback && (
           <p className="mb-6 rounded-lg border border-[#3a332c] bg-[#241f1a] px-4 py-3 text-sm text-[#dc8e6e]">
-            KV_REST_API_URL/TOKEN não configurados — usando armazenamento em
-            memória (dados somem ao reiniciar). Configure a integração Redis na
+            BLOB_READ_WRITE_TOKEN não configurado — usando armazenamento em
+            memória (dados somem ao reiniciar). Configure a integração Blob na
             Vercel para persistência real.
           </p>
         )}

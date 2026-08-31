@@ -1,19 +1,15 @@
-import { Redis } from "@upstash/redis";
+import { put } from "@vercel/blob";
 import type { Site } from "../lib/types";
 
-const url = process.env.KV_REST_API_URL;
-const token = process.env.KV_REST_API_TOKEN;
-
-if (!url || !token) {
+if (!process.env.BLOB_READ_WRITE_TOKEN) {
   console.error(
-    "KV_REST_API_URL/KV_REST_API_TOKEN não configurados. Rode com " +
+    "BLOB_READ_WRITE_TOKEN não configurado. Rode com " +
       "`vercel env pull .env.production.local` e aponte pra esse arquivo, " +
       "ou cadastre os cases direto pelo admin em produção."
   );
   process.exit(1);
 }
 
-const redis = new Redis({ url, token });
 const now = new Date().toISOString();
 
 const sites: Site[] = [
@@ -60,7 +56,12 @@ const sites: Site[] = [
 ];
 
 async function main() {
-  await redis.set("sites:list", sites);
+  await put("data/sites.json", JSON.stringify(sites), {
+    access: "public",
+    contentType: "application/json",
+    allowOverwrite: true,
+    addRandomSuffix: false,
+  });
   console.log(`Seeded ${sites.length} sites.`);
 }
 

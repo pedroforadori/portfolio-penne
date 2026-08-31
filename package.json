@@ -10,7 +10,6 @@
     "seed": "tsx --env-file=.env.local scripts/seed.ts"
   },
   "dependencies": {
-    "@upstash/redis": "^1.38.3",
     "@vercel/blob": "^2.8.0",
     "jose": "^6.2.10",
     "next": "16.3.3",

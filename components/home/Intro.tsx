@@ -44,15 +44,15 @@ export default function Intro({
           </span>
         </h1>
 
-        <div className="penne-intro-body mt-6 grid gap-8 sm:mt-10 lg:grid-cols-[minmax(0,28rem)_minmax(0,1fr)] lg:items-end lg:gap-16">
-          <p className="max-w-md text-base leading-relaxed text-cream/75 sm:text-lg">
+        <div className="penne-intro-body mt-4 grid gap-5 sm:mt-10 sm:gap-8 lg:grid-cols-[minmax(0,28rem)_minmax(0,1fr)] lg:items-end lg:gap-16">
+          <p className="max-w-md text-[15px] leading-normal text-cream/75 sm:text-lg sm:leading-relaxed">
             A Penne cria sites de casamento sob medida, cada um com as cores, o jeito e a
             história do casal. Se vocês procuram um site para o casamento que não pareça modelo
             pronto, aqui estão alguns casais que já ganharam o seu.
           </p>
 
-          <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-            <ol className="flex flex-col gap-2.5 font-mono text-[11px] uppercase leading-snug text-cream/60">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+            <ol className="flex flex-col gap-1.5 font-mono sm:gap-2.5 text-[11px] uppercase leading-snug text-cream/60">
               {STEPS.map((step, i) => (
                 <li key={i} className="flex gap-3">
                   <span className="tabular-nums text-cream/35">{String(i + 1).padStart(2, "0")}</span>

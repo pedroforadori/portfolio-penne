@@ -41,6 +41,19 @@ export default function SiteForm({ action, initial, submitLabel }: Props) {
         />
       </div>
 
+      <label className="block">
+        <span className="block text-sm text-[#a89a8c] mb-1.5">
+          Descrição (aparece na página do casal e no Google)
+        </span>
+        <textarea
+          name="description"
+          rows={4}
+          defaultValue={initial?.description}
+          placeholder="Como foi o projeto: estilo, cores, recursos do site…"
+          className="w-full rounded-lg border border-[#3a332c] bg-[#12100e] px-3.5 py-2 text-[#f4ede6] placeholder:text-[#6b5f54] outline-none focus:border-[#c97b5c]"
+        />
+      </label>
+
       <div>
         <span className="block text-sm text-[#a89a8c] mb-2">
           Cor de fundo (usada só até você enviar um screenshot)

@@ -2,9 +2,12 @@ import { getSites } from "@/lib/sites";
 import { withLocalPreviews } from "@/lib/local-previews";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site-config";
 import type { Site } from "@/lib/types";
+import { casePath } from "@/lib/case-copy";
 import Home from "@/components/home/Home";
 
-export const dynamic = "force-dynamic";
+// Gerada uma vez e servida do cache; o admin revalida ao salvar. A hora é
+// rede de segurança pra mudanças feitas fora do admin (ex.: script de capturas).
+export const revalidate = 3600;
 
 // Descreve a Penne e cada case para buscadores: a home é um portfólio
 // (CollectionPage) cuja lista principal são os sites dos casais.
@@ -43,13 +46,8 @@ function structuredData(sites: Site[]) {
           itemListElement: sites.map((site, index) => ({
             "@type": "ListItem",
             position: index + 1,
-            item: {
-              "@type": "WebSite",
-              name: `Site de casamento — ${site.couple}`,
-              url: site.liveUrl,
-              ...(site.imageUrl && { image: site.imageUrl }),
-              creator: { "@id": organization["@id"] },
-            },
+            name: site.couple,
+            url: `${SITE_URL}${casePath(site)}`,
           })),
         },
       },

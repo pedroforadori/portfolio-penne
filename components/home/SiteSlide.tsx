@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState, type PointerEvent } from "react";
+import Link from "next/link";
 import type { Site } from "@/lib/types";
+import { casePath, splitCouple } from "@/lib/case-copy";
 import RingsLoader from "./RingsLoader";
 import SiteBackground from "./SiteBackground";
 import RollText from "./RollText";
@@ -55,7 +57,7 @@ export default function SiteSlide({
 
   useEffect(() => () => window.clearTimeout(timer.current), []);
 
-  const [first, second] = site.couple.split(/\s*&\s*/);
+  const { first, second } = splitCouple(site.couple);
   // Cor do case clareada pra ter contraste no fundo escuro.
   const accent = `color-mix(in oklab, ${site.color} 65%, white)`;
 
@@ -106,11 +108,17 @@ export default function SiteSlide({
           <span className="font-mono text-[11px] uppercase text-cream/60 [@media(hover:none)]:hidden">
             Pare o mouse sobre o nome
           </span>
+          <Link
+            href={casePath(site)}
+            className="penne-roll ml-auto font-display text-lg uppercase leading-none text-cream/70 hover:text-cream sm:text-xl"
+          >
+            <RollText text="O projeto" />
+          </Link>
           <a
             href={site.liveUrl}
             target="_blank"
             rel="noreferrer noopener"
-            className="penne-roll ml-auto font-display text-lg uppercase leading-none sm:text-xl"
+            className="penne-roll font-display text-lg uppercase leading-none sm:text-xl"
           >
             <RollText text="Ver site ↗" />
           </a>

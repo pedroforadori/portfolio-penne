@@ -56,7 +56,7 @@ export default function Intro({
             <ol className="flex flex-col gap-1.5 font-mono sm:gap-2.5 text-[11px] uppercase leading-snug text-cream/60">
               {STEPS.map((step, i) => (
                 <li key={i} className="flex gap-3">
-                  <span className="tabular-nums text-cream/35">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="tabular-nums text-cream/55">{String(i + 1).padStart(2, "0")}</span>
                   <span className="[@media(hover:none)]:hidden">{step.mouse}</span>
                   <span className="hidden [@media(hover:none)]:inline">{step.touch}</span>
                 </li>

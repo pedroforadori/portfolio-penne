@@ -7,6 +7,11 @@ export async function getSites(): Promise<Site[]> {
   return (sites ?? []).slice().sort((a, b) => a.order - b.order);
 }
 
+export async function getSiteBySlug(slug: string): Promise<Site | undefined> {
+  const sites = await getSites();
+  return sites.find((s) => s.slug === slug);
+}
+
 export async function getSite(id: string): Promise<Site | undefined> {
   const sites = await getSites();
   return sites.find((s) => s.id === id);

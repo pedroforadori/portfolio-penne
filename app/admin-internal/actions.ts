@@ -7,6 +7,11 @@ import { addSite, deleteSite, getSites, reorderSites, updateSite } from "@/lib/s
 import { uploadSiteImage } from "@/lib/blob";
 import { SESSION_COOKIE } from "@/lib/auth";
 
+// Home, páginas dos casais e sitemap leem a mesma lista de cases.
+function revalidatePublicPages() {
+  revalidatePath("/", "layout");
+}
+
 function adminHome() {
   return `/${process.env.ADMIN_PATH}`;
 }
@@ -22,6 +27,7 @@ export async function createSiteAction(formData: FormData) {
   const slug = String(formData.get("slug") ?? "").trim();
   const liveUrl = String(formData.get("liveUrl") ?? "").trim();
   const githubUrl = String(formData.get("githubUrl") ?? "").trim();
+  const description = String(formData.get("description") ?? "").trim();
   const color = String(formData.get("color") ?? "").trim();
   const image = formData.get("image");
 
@@ -34,11 +40,12 @@ export async function createSiteAction(formData: FormData) {
     slug,
     liveUrl,
     githubUrl: githubUrl || undefined,
+    description: description || undefined,
     color,
     imageUrl: imageUrl ?? undefined,
   });
 
-  revalidatePath("/");
+  revalidatePublicPages();
   revalidatePath(adminHome());
   redirect(adminHome());
 }
@@ -48,6 +55,7 @@ export async function updateSiteAction(id: string, formData: FormData) {
   const slug = String(formData.get("slug") ?? "").trim();
   const liveUrl = String(formData.get("liveUrl") ?? "").trim();
   const githubUrl = String(formData.get("githubUrl") ?? "").trim();
+  const description = String(formData.get("description") ?? "").trim();
   const color = String(formData.get("color") ?? "").trim();
   const image = formData.get("image");
 
@@ -60,18 +68,19 @@ export async function updateSiteAction(id: string, formData: FormData) {
     slug,
     liveUrl,
     githubUrl: githubUrl || undefined,
+    description: description || undefined,
     color,
     ...(uploadedUrl ? { imageUrl: uploadedUrl } : {}),
   });
 
-  revalidatePath("/");
+  revalidatePublicPages();
   revalidatePath(adminHome());
   redirect(adminHome());
 }
 
 export async function deleteSiteAction(id: string) {
   await deleteSite(id);
-  revalidatePath("/");
+  revalidatePublicPages();
   revalidatePath(adminHome());
 }
 
@@ -87,6 +96,6 @@ export async function moveSiteAction(id: string, direction: "up" | "down") {
   [orderedIds[index], orderedIds[swapWith]] = [orderedIds[swapWith], orderedIds[index]];
 
   await reorderSites(orderedIds);
-  revalidatePath("/");
+  revalidatePublicPages();
   revalidatePath(adminHome());
 }

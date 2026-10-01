@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
 import { getSites } from "@/lib/sites";
 import { SITE_URL } from "@/lib/site-config";
+import { casePath } from "@/lib/case-copy";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const sites = await getSites();
@@ -19,5 +20,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 1,
     },
+    ...sites.map((site) => ({
+      url: `${SITE_URL}${casePath(site)}`,
+      lastModified: new Date(site.createdAt),
+      changeFrequency: "yearly" as const,
+      priority: 0.8,
+    })),
   ];
 }

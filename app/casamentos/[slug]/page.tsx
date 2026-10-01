@@ -4,7 +4,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getSiteBySlug, getSites } from "@/lib/sites";
 import { SITE_NAME, SITE_URL, whatsappUrl } from "@/lib/site-config";
-import { caseDescription, casePath, caseTitle, splitCouple } from "@/lib/case-copy";
+import {
+  caseDescription,
+  caseMetaDescription,
+  casePath,
+  caseTitle,
+  splitCouple,
+} from "@/lib/case-copy";
 import RollText from "@/components/home/RollText";
 
 export const revalidate = 3600;
@@ -21,7 +27,7 @@ export async function generateMetadata({
   if (!site) return {};
 
   const title = caseTitle(site);
-  const description = caseDescription(site);
+  const description = caseMetaDescription(site);
   return {
     title,
     description,

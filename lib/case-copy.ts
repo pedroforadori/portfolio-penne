@@ -16,6 +16,25 @@ export function caseDescription(site: Pick<Site, "couple" | "description">) {
   );
 }
 
+// Versão pra meta description: o Google corta em ~160 caracteres, então usa
+// as frases inteiras que couberem; se sobrar pouco texto, corta na última
+// palavra antes do limite.
+export function caseMetaDescription(
+  site: Pick<Site, "couple" | "description">,
+  max = 160
+): string {
+  const text = caseDescription(site);
+  if (text.length <= max) return text;
+
+  let fitting = "";
+  for (const sentence of text.match(/[^.!?]+[.!?]+/g) ?? []) {
+    if ((fitting + sentence).trim().length > max) break;
+    fitting += sentence;
+  }
+  if (fitting.trim().length >= 110) return fitting.trim();
+  return `${text.slice(0, max - 1).replace(/\s+\S*$/, "").replace(/[,;:]$/, "")}…`;
+}
+
 // "Camila & Victor" → ["Camila", "Victor"]
 export function splitCouple(couple: string) {
   const [first, second] = couple.split(/\s*&\s*/);

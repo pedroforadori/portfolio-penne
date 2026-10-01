@@ -1,6 +1,6 @@
 import { getSites } from "@/lib/sites";
 import { withLocalPreviews } from "@/lib/local-previews";
-import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site-config";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL, WHATSAPP_DISPLAY, whatsappUrl } from "@/lib/site-config";
 import type { Site } from "@/lib/types";
 import { casePath } from "@/lib/case-copy";
 import Home from "@/components/home/Home";
@@ -18,6 +18,14 @@ function structuredData(sites: Site[]) {
     name: SITE_NAME,
     url: SITE_URL,
     logo: `${SITE_URL}/icon`,
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "sales",
+      telephone: WHATSAPP_DISPLAY.replace(/\s/g, "-"),
+      url: whatsappUrl(),
+      areaServed: "BR",
+      availableLanguage: "Portuguese",
+    },
   };
 
   return {

@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getSiteBySlug, getSites } from "@/lib/sites";
-import { SITE_NAME, SITE_URL } from "@/lib/site-config";
+import { SITE_NAME, SITE_URL, whatsappUrl } from "@/lib/site-config";
 import { caseDescription, casePath, caseTitle, splitCouple } from "@/lib/case-copy";
 import RollText from "@/components/home/RollText";
 
@@ -145,10 +145,26 @@ export default async function CasePage({ params }: PageProps<"/casamentos/[slug]
           </div>
         )}
 
+        <section className="mt-16 flex flex-col gap-5 border-t border-cream/10 pt-8 sm:mt-24 sm:flex-row sm:items-end sm:justify-between">
+          <h2 className="font-serif text-3xl italic leading-tight sm:text-5xl">
+            Quer um site assim pro seu casamento?
+          </h2>
+          <a
+            href={whatsappUrl(
+              `Oi! Vi o site de ${site.couple} no portfólio da Penne e quero um para o meu casamento.`
+            )}
+            target="_blank"
+            rel="noopener"
+            className="penne-roll shrink-0 font-display text-2xl uppercase leading-none text-[#dba58c]"
+          >
+            <RollText text="Orçamento no WhatsApp ↗" />
+          </a>
+        </section>
+
         {next && next.id !== site.id && (
           <Link
             href={casePath(next)}
-            className="penne-roll mt-16 block border-t border-cream/10 pt-8 sm:mt-24"
+            className="penne-roll mt-12 block border-t border-cream/10 pt-8 sm:mt-16"
           >
             <span className="font-mono text-[11px] uppercase text-cream/60">Próximo casamento</span>
             <span className="mt-3 block font-display text-[12vw] uppercase leading-[0.9] sm:text-[clamp(48px,8vw,128px)]">

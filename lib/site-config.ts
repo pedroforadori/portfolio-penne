@@ -15,3 +15,13 @@ export const SITE_NAME = "Penne";
 export const SITE_TITLE = "Penne — Sites de casamento personalizados";
 export const SITE_DESCRIPTION =
   "Sites de casamento sob medida, com convite digital, confirmação de presença e lista de presentes. Veja os casais que já ganharam um site com a cara deles.";
+
+// Contato comercial: só WhatsApp por enquanto.
+export const WHATSAPP_NUMBER = "5511981024517";
+export const WHATSAPP_DISPLAY = "+55 11 98102-4517";
+
+export function whatsappUrl(
+  message = "Oi! Vi o portfólio da Penne e quero um site para o meu casamento."
+) {
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+}

@@ -1,3 +1,5 @@
+export type Device = "mobile" | "tablet" | "desktop";
+
 export type Site = {
   id: string;
   couple: string;
@@ -6,8 +8,9 @@ export type Site = {
   githubUrl?: string;
   color: string;
   imageUrl?: string;
-  // Captura desktop (1440px de largura) da página inteira, usada no fundo da home.
-  fullPageImageUrl?: string;
+  // Capturas da página inteira em cada dispositivo, usadas no fundo da home
+  // (cada tela carrega a do seu tamanho).
+  fullPage?: Partial<Record<Device, string>>;
   order: number;
   createdAt: string;
 };

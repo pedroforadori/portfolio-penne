@@ -64,17 +64,21 @@ interna `/admin-internal` é bloqueada diretamente — só é alcançada atravé
 
 Cada case tem duas capturas, feitas automaticamente a partir do `liveUrl`:
 
-- `imageUrl` — screenshot vertical da home (1280x1600), usado no mobile;
-- `fullPageImageUrl` — página inteira em desktop (1440px de largura), usada
-  no fundo da home no desktop: aparece quando o mouse para sobre o nome do
-  casal e desce devagar pelo site.
+- `fullPage.mobile` / `fullPage.tablet` / `fullPage.desktop` — a página
+  inteira capturada em cada dispositivo (iPhone 390px, iPad 834px e desktop
+  1440px, com o layout responsivo do próprio site). A home usa a do tamanho
+  de tela de quem acessa (< 640px, 640–1023px, ≥ 1024px): aparece quando o
+  mouse para sobre o nome do casal (no toque, quando o case fica na tela) e
+  desce devagar pelo site;
+- `imageUrl` — screenshot vertical da home (1280x1600), reserva quando falta
+  a captura de algum dispositivo.
 
 ```bash
 npx playwright install chromium   # só na primeira vez
 npm run capture-screenshots
 ```
 
-Isso **grava no Blob de produção**: sobe as duas capturas de cada case e
+Isso **grava no Blob de produção**: sobe as capturas de cada case e
 atualiza o `sites.json`. Também dá pra enviar um screenshot vertical manual
 pelo formulário do admin — o upload manual tem prioridade até rodar o script
 de novo.
@@ -86,7 +90,7 @@ npm run capture-screenshots -- --local
 ```
 
 As capturas de página inteira vão pra `public/previews/` (fora do git) e o
-`next dev` passa a usá-las nos cases que ainda não têm `fullPageImageUrl`.
+`next dev` passa a usá-las nos dispositivos que ainda não têm captura no Blob.
 
 Sites que rolam dentro de um container próprio (em vez da página) saem só
 com a primeira dobra na captura de página inteira.

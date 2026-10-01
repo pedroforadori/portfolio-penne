@@ -1,18 +1,24 @@
 import "server-only";
 import { existsSync } from "node:fs";
 import path from "node:path";
-import type { Site } from "./types";
+import type { Device, Site } from "./types";
 
-// Só em desenvolvimento: enquanto o script de captura ainda não grava a página
-// inteira no Blob, usa capturas locais em public/previews/<slug>-full.jpg.
+const DEVICES: Device[] = ["mobile", "tablet", "desktop"];
+
+// Só em desenvolvimento: usa as capturas locais de public/previews/
+// (geradas por `npm run capture-screenshots -- --local`) nos dispositivos que
+// ainda não têm captura no Blob.
 export function withLocalPreviews(sites: Site[]): Site[] {
   if (process.env.NODE_ENV !== "development") return sites;
 
   return sites.map((site) => {
-    if (site.fullPageImageUrl) return site;
-    const file = `previews/${site.slug}-full.jpg`;
-    return existsSync(path.join(process.cwd(), "public", file))
-      ? { ...site, fullPageImageUrl: `/${file}` }
-      : site;
+    const fullPage = { ...site.fullPage };
+    for (const device of DEVICES) {
+      const file = `previews/${site.slug}-${device}.jpg`;
+      if (!fullPage[device] && existsSync(path.join(process.cwd(), "public", file))) {
+        fullPage[device] = `/${file}`;
+      }
+    }
+    return { ...site, fullPage };
   });
 }

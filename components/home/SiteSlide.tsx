@@ -1,24 +1,14 @@
 "use client";
 
-import Image from "next/image";
-import {
-  useEffect,
-  useRef,
-  useState,
-  type CSSProperties,
-  type PointerEvent,
-  type SyntheticEvent,
-} from "react";
+import { useEffect, useRef, useState, type PointerEvent } from "react";
 import type { Site } from "@/lib/types";
 import RingsLoader from "./RingsLoader";
+import SiteBackground from "./SiteBackground";
 import RollText from "./RollText";
 
 // Quanto tempo o mouse precisa ficar parado sobre o nome até a imagem do site
 // aparecer no fundo. Tem que bater com --dwell no CSS.
 const DWELL_MS = 700;
-
-// Velocidade com que o fundo percorre a página inteira depois de revelado.
-const PAN_SPEED_PX_S = 140;
 
 function isTouch() {
   return window.matchMedia("(hover: none)").matches;
@@ -36,15 +26,6 @@ export default function SiteSlide({
   const [dwelling, setDwelling] = useState(false);
   const [revealed, setRevealed] = useState(false);
   const timer = useRef<number | undefined>(undefined);
-  const pageViewportRef = useRef<HTMLDivElement>(null);
-  const [pan, setPan] = useState(0);
-
-  // Quanto a imagem da página inteira precisa subir pra mostrar o fim do site.
-  const measurePan = (e: SyntheticEvent<HTMLImageElement>) => {
-    const viewport = pageViewportRef.current;
-    if (!viewport) return;
-    setPan(Math.min(0, viewport.clientHeight - e.currentTarget.offsetHeight));
-  };
 
   const startDwell = (e: PointerEvent) => {
     if (e.pointerType !== "mouse") return;
@@ -88,40 +69,7 @@ export default function SiteSlide({
       aria-label={site.couple}
       className="penne-slide relative h-dvh snap-start overflow-hidden"
     >
-      {/* Mobile (ou sem captura da página inteira): screenshot vertical da home */}
-      {site.imageUrl && (
-        <div className={`penne-bg absolute inset-0 ${site.fullPageImageUrl ? "sm:hidden" : ""}`}>
-          <Image
-            src={site.imageUrl}
-            alt=""
-            fill
-            sizes="100vw"
-            preload={index === 0}
-            className="object-cover object-top"
-          />
-        </div>
-      )}
-
-      {/* Desktop: a página inteira, que começa na home e desce devagar pelo site */}
-      {site.fullPageImageUrl && (
-        <div ref={pageViewportRef} className="penne-bg absolute inset-0 hidden sm:block">
-          <Image
-            src={site.fullPageImageUrl}
-            alt=""
-            width={1440}
-            height={900}
-            sizes="100vw"
-            onLoad={measurePan}
-            className="penne-page h-auto w-full"
-            style={
-              {
-                "--pan": `${pan}px`,
-                "--pan-duration": `${Math.abs(pan) / PAN_SPEED_PX_S}s`,
-              } as CSSProperties
-            }
-          />
-        </div>
-      )}
+      <SiteBackground site={site} />
       <div className="penne-veil absolute inset-0 bg-gradient-to-t from-night via-night/35 to-transparent" />
       {/* Separa o cabeçalho da Penne do menu do próprio site quando revelado */}
       <div className="penne-top-veil absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-night/80 to-transparent" />

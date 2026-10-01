@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState, type PointerEvent } from "react";
 import Link from "next/link";
 import type { Site } from "@/lib/types";
-import { casePath, splitCouple } from "@/lib/case-copy";
+import { casePath } from "@/lib/case-copy";
+import CoupleName, { accentColor } from "./CoupleName";
 import RingsLoader from "./RingsLoader";
 import SiteBackground from "./SiteBackground";
 import RollText from "./RollText";
@@ -57,9 +58,7 @@ export default function SiteSlide({
 
   useEffect(() => () => window.clearTimeout(timer.current), []);
 
-  const { first, second } = splitCouple(site.couple);
-  // Cor do case clareada pra ter contraste no fundo escuro.
-  const accent = `color-mix(in oklab, ${site.color} 65%, white)`;
+  const accent = accentColor(site);
 
   return (
     <section
@@ -85,22 +84,7 @@ export default function SiteSlide({
           onPointerLeave={stopDwell}
           className="penne-name inline-block font-display text-[21vw] sm:text-[clamp(64px,15vw,250px)] uppercase leading-[0.86] focus:outline-none"
         >
-          <span className="penne-line">
-            <span>{first}</span>
-          </span>
-          {second && (
-            <span className="penne-line">
-              <span>
-                <span
-                  className="penne-amp font-serif font-medium normal-case italic"
-                  style={{ color: accent }}
-                >
-                  &amp;
-                </span>{" "}
-                {second}
-              </span>
-            </span>
-          )}
+          <CoupleName site={site} />
         </a>
 
         <div className="mt-5 flex items-center gap-5 sm:mt-6">

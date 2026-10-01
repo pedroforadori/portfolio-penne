@@ -3,9 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import type { Site } from "@/lib/types";
 import { whatsappUrl } from "@/lib/site-config";
+import CarouselView from "./CarouselView";
 import Intro from "./Intro";
 import RollText from "./RollText";
 import SiteSlide from "./SiteSlide";
+import ViewMenu, { type ViewMode } from "./ViewMenu";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
@@ -13,11 +15,22 @@ export default function Home({ sites }: { sites: Site[] }) {
   const scrollerRef = useRef<HTMLDivElement>(null);
   // -1 é a abertura; daí em diante, o índice do case na tela.
   const [current, setCurrent] = useState(-1);
+  const [mode, setMode] = useState<ViewMode>("slides");
 
   const goToFirstSite = () => {
     scrollerRef.current
       ?.querySelector('[data-index="0"]')
       ?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const changeMode = (next: ViewMode) => {
+    setMode(next);
+    // Volta pro modo "um a um" no case que estava no centro do carrossel.
+    if (next === "slides") {
+      scrollerRef.current
+        ?.querySelector(`[data-index="${current}"]`)
+        ?.scrollIntoView({ behavior: "instant" });
+    }
   };
 
   // Descobre qual tela está visível pra atualizar o contador e disparar a
@@ -44,13 +57,25 @@ export default function Home({ sites }: { sites: Site[] }) {
     <div className="penne fixed inset-0 bg-night text-cream">
       <div
         ref={scrollerRef}
-        className="penne-scroller h-full snap-y snap-mandatory overflow-y-auto"
+        inert={mode !== "slides"}
+        className={`penne-scroller h-full snap-y snap-mandatory overflow-y-auto ${
+          mode === "slides" ? "" : "invisible"
+        }`}
       >
         <Intro active={current === -1} hasSites={sites.length > 0} onStart={goToFirstSite} />
         {sites.map((site, index) => (
           <SiteSlide key={site.id} site={site} index={index} active={index === current} />
         ))}
       </div>
+
+      {mode === "carousel" && (
+        <div className="penne-fade-in fixed inset-0 z-10 bg-night">
+          <CarouselView sites={sites} initialIndex={current} onChange={setCurrent} />
+        </div>
+      )}
+
+      {/* Aparece a partir do primeiro case (não na abertura) */}
+      <ViewMenu mode={mode} visible={current >= 0} onChange={changeMode} />
 
       <header className="pointer-events-none fixed inset-x-0 top-0 z-20 flex items-start justify-between p-6 sm:p-10">
         <span className="font-serif text-3xl italic leading-none">Penne</span>

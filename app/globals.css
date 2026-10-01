@@ -158,6 +158,63 @@ body {
   animation: penne-fade-up 900ms var(--ease-out) 350ms both;
 }
 
+/* ---------- Modo carrossel ---------- */
+
+@keyframes penne-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+.penne-fade-in {
+  animation: penne-fade-in 600ms ease both;
+}
+
+/* Tamanho do card: em pé (captura de celular) até o tablet, deitado
+   (captura de computador) no desktop; limitado pela altura da tela pra
+   sobrar espaço pro nome. */
+.penne-carousel {
+  --card-w: min(62vw, 340px, (100dvh - 330px) * 0.5625);
+  --card-ratio: 9 / 16;
+  perspective: 1800px;
+}
+@media (min-width: 1024px) {
+  .penne-carousel {
+    --card-w: min(56vw, 880px, (100dvh - 380px) * 1.6);
+    --card-ratio: 16 / 10;
+  }
+}
+.penne-carousel-stage {
+  width: var(--card-w);
+  aspect-ratio: var(--card-ratio);
+  transform-style: preserve-3d;
+}
+
+/* Os cards se espalham pros lados girando em perspectiva; quanto mais longe
+   do centro, mais fundo, mais escuro e mais transparente. */
+.penne-card {
+  transform: translateX(calc(var(--offset) * var(--card-w) * 0.72))
+    translateZ(calc(var(--distance) * -240px)) rotateY(calc(var(--offset) * -30deg));
+  opacity: clamp(0, 1 - var(--distance) * 0.38, 1);
+  filter: brightness(calc(1 - var(--distance) * 0.35));
+  transition:
+    transform 850ms var(--ease-out),
+    opacity 600ms ease,
+    filter 600ms ease;
+  box-shadow: 0 30px 80px rgb(0 0 0 / 0.45);
+}
+/* No card do centro, o hover percorre a página inteira do site */
+.penne-card-image {
+  transition: object-position 900ms var(--ease-out);
+}
+.penne-card[data-center="true"]:hover .penne-card-image {
+  object-position: 50% 100%;
+  transition: object-position 22s linear;
+}
+
+.penne-carousel-name .penne-line > span {
+  animation: penne-rise 900ms var(--ease-out) both;
+}
+
 /* Texto que rola letra por letra no hover */
 .penne-roll-char {
   display: inline-flex;
@@ -176,6 +233,13 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .penne-card,
+  .penne-card-image {
+    transition-duration: 1ms !important;
+  }
+  .penne-carousel-name .penne-line > span {
+    animation: none;
+  }
   .penne-bg,
   .penne-roll-char > span {
     transition-duration: 1ms;

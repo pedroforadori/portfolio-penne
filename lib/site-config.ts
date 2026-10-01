@@ -14,4 +14,4 @@ export const SITE_URL = resolveSiteUrl().replace(/\/$/, "");
 export const SITE_NAME = "Penne";
 export const SITE_TITLE = "Penne — Sites de casamento personalizados";
 export const SITE_DESCRIPTION =
-  "Sites de casamento feitos sob medida pela Penne. Conheça os casais que já ganharam um site com a cara deles e veja cada projeto ao vivo.";
+  "Sites de casamento sob medida, com convite digital, confirmação de presença e lista de presentes. Veja os casais que já ganharam um site com a cara deles.";

@@ -35,9 +35,12 @@ export const metadata: Metadata = {
   applicationName: SITE_NAME,
   keywords: [
     "site de casamento",
-    "site para casamento personalizado",
-    "convite digital de casamento",
-    "portfólio sites de casamento",
+    "site para casamento",
+    "site de casamento personalizado",
+    "lista de casamento",
+    "lista de presentes de casamento",
+    "convite de casamento digital",
+    "confirmação de presença casamento",
   ],
   alternates: { canonical: "/" },
   openGraph: {

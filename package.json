@@ -12,6 +12,8 @@
     "env:pull": "npx vercel env pull .env.local --environment=production --yes"
   },
   "dependencies": {
+    "@fontsource/anton": "^5.3.0",
+    "@fontsource/cormorant-garamond": "^5.3.0",
     "@vercel/blob": "^2.8.0",
     "jose": "^6.2.10",
     "next": "16.3.3",

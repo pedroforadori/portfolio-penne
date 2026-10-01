@@ -26,17 +26,19 @@ export async function proxy(request: NextRequest) {
   const rest = pathname.slice(secretPrefix.length); // "" | "/login" | ...
   const isLoginRoute = rest === "/login";
 
-  if (!isLoginRoute) {
-    const token = request.cookies.get(SESSION_COOKIE)?.value;
-    const authenticated = await verifySessionToken(token);
-    if (!authenticated) {
-      return NextResponse.redirect(new URL(`${secretPrefix}/login`, request.url));
-    }
+  let response: NextResponse;
+  if (!isLoginRoute && !(await verifySessionToken(request.cookies.get(SESSION_COOKIE)?.value))) {
+    response = NextResponse.redirect(new URL(`${secretPrefix}/login`, request.url));
+  } else {
+    const url = request.nextUrl.clone();
+    url.pathname = `${INTERNAL_ADMIN_PREFIX}${rest}`;
+    response = NextResponse.rewrite(url);
   }
 
-  const url = request.nextUrl.clone();
-  url.pathname = `${INTERNAL_ADMIN_PREFIX}${rest}`;
-  return NextResponse.rewrite(url);
+  // Se o caminho secreto vazar (link compartilhado, histórico), o admin
+  // continua fora dos buscadores.
+  response.headers.set("X-Robots-Tag", "noindex, nofollow");
+  return response;
 }
 
 export const config = {

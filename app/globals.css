@@ -147,6 +147,17 @@ body {
   animation-delay: 90ms;
 }
 
+/* Abertura: o texto e o tutorial entram logo depois do título */
+@keyframes penne-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+[data-active="true"] .penne-intro-body {
+  animation: penne-fade-up 900ms var(--ease-out) 350ms both;
+}
+
 /* Texto que rola letra por letra no hover */
 .penne-roll-char {
   display: inline-flex;
@@ -174,7 +185,8 @@ body {
   [data-revealed="true"] .penne-page {
     transform: none;
   }
-  [data-active="true"] .penne-line > span {
+  [data-active="true"] .penne-line > span,
+  [data-active="true"] .penne-intro-body {
     animation: none;
   }
 }

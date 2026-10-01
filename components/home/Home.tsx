@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { Site } from "@/lib/types";
+import { whatsappUrl } from "@/lib/site-config";
 import Intro from "./Intro";
+import RollText from "./RollText";
 import SiteSlide from "./SiteSlide";
 
 const pad = (n: number) => String(n).padStart(2, "0");
@@ -52,13 +54,23 @@ export default function Home({ sites }: { sites: Site[] }) {
 
       <header className="pointer-events-none fixed inset-x-0 top-0 z-20 flex items-start justify-between p-6 sm:p-10">
         <span className="font-serif text-3xl italic leading-none">Penne</span>
-        {sites.length > 0 && (
-          <span
-            className={`font-mono text-xs tabular-nums text-cream/70 transition-opacity duration-500 ${current < 0 ? "opacity-0" : ""}`}
+        <div className="flex flex-col items-end gap-3">
+          <a
+            href={whatsappUrl()}
+            target="_blank"
+            rel="noopener"
+            className="penne-roll pointer-events-auto font-display text-base uppercase leading-none text-[#dba58c] sm:text-xl"
           >
-            {pad(Math.max(current, 0) + 1)} / {pad(sites.length)}
-          </span>
-        )}
+            <RollText text="Orçamento no WhatsApp ↗" />
+          </a>
+          {sites.length > 0 && (
+            <span
+              className={`font-mono text-xs tabular-nums text-cream/70 transition-opacity duration-500 ${current < 0 ? "opacity-0" : ""}`}
+            >
+              {pad(Math.max(current, 0) + 1)} / {pad(sites.length)}
+            </span>
+          )}
+        </div>
       </header>
     </div>
   );

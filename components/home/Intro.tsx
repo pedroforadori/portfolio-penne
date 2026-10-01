@@ -1,4 +1,3 @@
-import { whatsappUrl } from "@/lib/site-config";
 import RollText from "./RollText";
 
 // Cada passo tem um texto pra mouse e outro pra tela de toque, onde o site
@@ -32,7 +31,7 @@ export default function Intro({
       <div className="absolute inset-x-0 bottom-0 p-6 sm:p-10">
         <h1
           id="penne-intro-title"
-          className="font-display text-[17vw] uppercase leading-[0.86] [@media(max-height:600px)]:text-[14vw] sm:text-[clamp(56px,11vw,190px)]"
+          className="font-display text-[17vw] uppercase leading-[0.86] sm:text-[clamp(56px,11vw,190px)]"
         >
           <span className="penne-line">
             <span>
@@ -64,25 +63,15 @@ export default function Intro({
               ))}
             </ol>
 
-            <div className="flex shrink-0 flex-wrap items-center gap-x-6 gap-y-3">
-              {hasSites && (
-                <button
-                  type="button"
-                  onClick={onStart}
-                  className="penne-roll font-display text-lg uppercase leading-none sm:text-xl"
-                >
-                  <RollText text="Ver os casamentos ↓" />
-                </button>
-              )}
-              <a
-                href={whatsappUrl()}
-                target="_blank"
-                rel="noopener"
-                className="penne-roll font-display text-lg uppercase leading-none text-[#dba58c] sm:text-xl"
+            {hasSites && (
+              <button
+                type="button"
+                onClick={onStart}
+                className="penne-roll shrink-0 self-start font-display text-lg uppercase leading-none sm:self-auto sm:text-xl"
               >
-                <RollText text="Orçamento no WhatsApp ↗" />
-              </a>
-            </div>
+                <RollText text="Ver os casamentos ↓" />
+              </button>
+            )}
           </div>
         </div>
       </div>

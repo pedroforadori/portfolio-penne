@@ -126,8 +126,8 @@ export default async function CasePage({ params }: PageProps<"/casamentos/[slug]
         </div>
 
         {desktop && (
-          <div className="mt-12 flex items-end gap-4 sm:mt-16 sm:gap-6">
-            <figure className="relative aspect-[16/10] flex-1 overflow-hidden rounded-lg border border-cream/10">
+          <div className="mt-12 flex flex-col gap-6 sm:mt-16 sm:flex-row sm:items-end">
+            <figure className="relative aspect-[16/10] overflow-hidden rounded-lg border border-cream/10 sm:flex-1">
               <Image
                 src={desktop}
                 alt={`Página inicial do site de casamento de ${site.couple} no computador`}
@@ -138,12 +138,12 @@ export default async function CasePage({ params }: PageProps<"/casamentos/[slug]
               />
             </figure>
             {mobile && (
-              <figure className="relative hidden aspect-[390/844] w-[18%] shrink-0 overflow-hidden rounded-lg border border-cream/10 sm:block">
+              <figure className="relative aspect-[390/844] w-3/5 shrink-0 self-center overflow-hidden rounded-xl border border-cream/10 sm:w-[18%] sm:self-auto sm:rounded-lg">
                 <Image
                   src={mobile}
                   alt={`Página inicial do site de casamento de ${site.couple} no celular`}
                   fill
-                  sizes="18vw"
+                  sizes="(min-width: 640px) 18vw, 60vw"
                   className="object-cover object-top"
                 />
               </figure>

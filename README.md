@@ -60,18 +60,33 @@ interna `/admin-internal` é bloqueada diretamente — só é alcançada atravé
    `vercel env pull .env.production.local` e ajustando o script), ou
    cadastrando manualmente pelo admin em produção.
 
-## Screenshots das homes
+## Screenshots dos sites
 
-Os tiles do grid usam um screenshot real da home de cada site (em vez de
-cor sólida). Pra capturar/atualizar automaticamente todas as homes
-cadastradas:
+Cada case tem duas capturas, feitas automaticamente a partir do `liveUrl`:
+
+- `imageUrl` — screenshot vertical da home (1280x1600), usado no mobile;
+- `fullPageImageUrl` — página inteira em desktop (1440px de largura), usada
+  no fundo da home no desktop: aparece quando o mouse para sobre o nome do
+  casal e desce devagar pelo site.
 
 ```bash
 npx playwright install chromium   # só na primeira vez
 npm run capture-screenshots
 ```
 
-Isso navega até o `liveUrl` de cada case, tira um screenshot e sobrescreve
-o `imageUrl` de cada um. Também dá pra enviar um screenshot manual (print,
-recorte específico) direto pelo formulário do admin — o upload manual tem
-prioridade até rodar o script de novo.
+Isso **grava no Blob de produção**: sobe as duas capturas de cada case e
+atualiza o `sites.json`. Também dá pra enviar um screenshot vertical manual
+pelo formulário do admin — o upload manual tem prioridade até rodar o script
+de novo.
+
+Pra testar só localmente, sem tocar no Blob:
+
+```bash
+npm run capture-screenshots -- --local
+```
+
+As capturas de página inteira vão pra `public/previews/` (fora do git) e o
+`next dev` passa a usá-las nos cases que ainda não têm `fullPageImageUrl`.
+
+Sites que rolam dentro de um container próprio (em vez da página) saem só
+com a primeira dobra na captura de página inteira.

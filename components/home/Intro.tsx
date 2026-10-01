@@ -47,7 +47,8 @@ export default function Intro({
         <div className="penne-intro-body mt-6 grid gap-8 sm:mt-10 lg:grid-cols-[minmax(0,28rem)_minmax(0,1fr)] lg:items-end lg:gap-16">
           <p className="max-w-md text-base leading-relaxed text-cream/75 sm:text-lg">
             A Penne cria sites de casamento sob medida, cada um com as cores, o jeito e a
-            história do casal. Aqui estão alguns dos casamentos que já ganharam o seu.
+            história do casal. Se vocês procuram um site para o casamento que não pareça modelo
+            pronto, aqui estão alguns casais que já ganharam o seu.
           </p>
 
           <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">

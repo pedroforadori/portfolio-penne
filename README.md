@@ -18,13 +18,27 @@ npm run dev
 ```
 
 Sem `BLOB_READ_WRITE_TOKEN` configurado, o app usa um armazenamento em
-memória (`lib/store.ts`) só pra desenvolvimento — os dados somem ao
+memória (`lib/store.ts`) só pra desenvolvimento, já populado com os cases
+de `lib/seed-data.ts` — as alterações feitas pelo admin somem ao
 reiniciar o servidor, e o upload de imagem no admin é ignorado
 silenciosamente.
 
-Veja `.env.example` para as variáveis necessárias. Um `.env.local` de
-desenvolvimento já vem configurado com `ADMIN_PATH`, `ADMIN_PASSWORD` e
-`SESSION_SECRET` de teste (não usar em produção).
+Veja `.env.example` para as variáveis necessárias.
+
+### Réplica de produção
+
+Pra rodar localmente com os mesmos dados e configuração de produção:
+
+```bash
+npx vercel login   # só na primeira vez
+npx vercel link    # só na primeira vez, escolher o projeto do portfólio
+npm run env:pull   # gera .env.local com as env vars de produção
+npm run dev
+```
+
+Atenção: com o `BLOB_READ_WRITE_TOKEN` de produção, o app local lê e
+**escreve** no mesmo Blob store de produção — qualquer alteração feita pelo
+admin local aparece no site publicado.
 
 ## Admin
 

@@ -1,16 +1,19 @@
 import { get, put } from "@vercel/blob";
+import { seedSites } from "./seed-data";
 
 const PATHNAME = "data/sites.json";
 
 const hasBlobConfig = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
 
 // Fallback em memória para rodar `next dev` sem BLOB_READ_WRITE_TOKEN
-// configurado. Nunca usado em produção (exige a env var lá).
+// configurado, já populado com os cases do seed. Nunca usado em produção
+// (exige a env var lá).
 const memoryStore = globalThis as unknown as { __sitesMemory?: unknown };
 
 export async function readRaw<T>(): Promise<T | null> {
   if (!hasBlobConfig) {
-    return (memoryStore.__sitesMemory as T | undefined) ?? null;
+    memoryStore.__sitesMemory ??= seedSites;
+    return memoryStore.__sitesMemory as T;
   }
 
   const result = await get(PATHNAME, { access: "public", useCache: false });

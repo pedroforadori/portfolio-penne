@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "seed": "tsx --env-file=.env.local scripts/seed.ts",
-    "capture-screenshots": "tsx --env-file=.env.local scripts/capture-screenshots.ts"
+    "capture-screenshots": "tsx --env-file=.env.local scripts/capture-screenshots.ts",
+    "env:pull": "npx vercel env pull .env.local --environment=production --yes"
   },
   "dependencies": {
     "@vercel/blob": "^2.8.0",

@@ -14,6 +14,7 @@ import {
 import RollText from "@/components/home/RollText";
 import { testimonials } from "@/lib/testimonials";
 import { getPosts } from "@/lib/blog";
+import { PenneLogo } from "@/components/PenneLogo";
 
 export const revalidate = 3600;
 
@@ -88,8 +89,7 @@ export default async function CasePage({ params }: PageProps<"/casamentos/[slug]
       />
 
       <header className="flex items-start justify-between p-6 sm:p-10">
-        {/* Espaço reservado pro logo */}
-        <div aria-hidden className="h-[30px] w-24" />
+        <PenneLogo />
         <nav className="flex items-center gap-6">
           <Link
             href="/"

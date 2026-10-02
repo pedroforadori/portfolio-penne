@@ -5,6 +5,7 @@ import { formatPostDate, getPost, getPosts, postPath } from "@/lib/blog";
 import { SITE_NAME, SITE_URL, whatsappUrl } from "@/lib/site-config";
 import RollText from "@/components/home/RollText";
 import { testimonials } from "@/lib/testimonials";
+import { PenneLogo } from "@/components/PenneLogo";
 
 export async function generateStaticParams() {
   const posts = await getPosts();
@@ -88,8 +89,7 @@ export default async function PostPage({ params }: PageProps<"/blog/[slug]">) {
       />
 
       <header className="flex items-start justify-between p-6 sm:p-10">
-        {/* Espaço reservado pro logo */}
-        <div aria-hidden className="h-[30px] w-24" />
+        <PenneLogo />
         <nav className="flex items-center gap-6">
           <Link
             href="/blog"

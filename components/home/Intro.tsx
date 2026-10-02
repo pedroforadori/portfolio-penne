@@ -1,3 +1,4 @@
+import { PenneSeal } from "@/components/PenneLogo";
 import RollText from "./RollText";
 
 // Cada passo tem um texto pra mouse e outro pra tela de toque, onde o site
@@ -28,6 +29,10 @@ export default function Intro({
       aria-labelledby="penne-intro-title"
       className="penne-slide relative h-dvh snap-start overflow-hidden"
     >
+      {/* No celular o selo fica no alto, onde estaria o do header; do sm pra
+          cima, no vazio à direita do título. */}
+      <PenneSeal className="penne-intro-seal absolute left-6 top-6 size-[min(160px,22dvh)] sm:left-auto sm:right-10 sm:top-1/2 sm:size-[clamp(220px,26vw,360px)] sm:-translate-y-1/2" />
+
       <div className="absolute inset-x-0 bottom-0 p-6 sm:p-10">
         <h1
           id="penne-intro-title"

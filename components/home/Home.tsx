@@ -11,6 +11,7 @@ import RollText from "./RollText";
 import SiteSlide from "./SiteSlide";
 import TestimonialsSlide, { type HomeTestimonial } from "./TestimonialsSlide";
 import ViewMenu, { type ViewMode } from "./ViewMenu";
+import { PenneLogo } from "@/components/PenneLogo";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
@@ -31,6 +32,14 @@ export default function Home({
   const blogIndex = sites.length + (testimonials.length > 0 ? 1 : 0);
   const onCase = current >= 0 && current < sites.length;
   const [mode, setMode] = useState<ViewMode>("slides");
+
+  // Do logo no header: já estamos em "/", então só sobe pra abertura.
+  const goToIntro = () => {
+    setMode("slides");
+    scrollerRef.current
+      ?.querySelector('[data-index="-1"]')
+      ?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const goToFirstSite = () => {
     scrollerRef.current
@@ -128,8 +137,20 @@ export default function Home({
       <ViewMenu mode={mode} visible={onCase || mode === "carousel"} onChange={changeMode} />
 
       <header className="pointer-events-none fixed inset-x-0 top-0 z-20 flex items-start justify-between p-6 sm:p-10">
-        {/* Espaço reservado pro logo */}
-        <div aria-hidden className="h-[30px] w-24" />
+        {/* Na abertura o selo grande já está na tela; ao rolar, ficam só as
+            alianças no header, paradas, como âncora de volta pro início */}
+        <div
+          className={`transition-[opacity,visibility] duration-500 ${current === -1 && mode !== "carousel" ? "invisible opacity-0" : ""}`}
+        >
+          <PenneLogo
+            variant="mark"
+            className="pointer-events-auto"
+            onClick={(event) => {
+              event.preventDefault();
+              goToIntro();
+            }}
+          />
+        </div>
         <div className="flex flex-col items-end gap-3">
           <a
             href={whatsappUrl()}

@@ -94,26 +94,37 @@ body {
   opacity: 1;
 }
 
-/* Alianças da espera: se aproximam durante --dwell e terminam entrelaçadas */
+/* Alianças da espera: rolam uma em direção à outra durante --dwell (a creme
+   pra direita, girando no sentido horário; a colorida pra esquerda, no
+   anti-horário) e terminam entrelaçadas, com a pedrinha de volta no topo. Ao
+   sair do nome, rolam de volta. */
 .penne-ring-a,
+.penne-ring-a-over,
 .penne-ring-b {
   transition: transform 300ms ease;
 }
 .penne-ring-a {
-  transform: translateX(11px);
+  transform: translate(11px, 14px) rotate(0deg);
+}
+.penne-ring-a-over {
+  transform: translate(11px, 14px);
 }
 .penne-ring-b {
-  transform: translateX(53px);
+  transform: translate(81px, 14px) rotate(0deg);
 }
 [data-dwelling="true"] .penne-ring-a,
+[data-dwelling="true"] .penne-ring-a-over,
 [data-dwelling="true"] .penne-ring-b {
   transition: transform var(--dwell) cubic-bezier(0.6, 0, 0.3, 1);
 }
 [data-dwelling="true"] .penne-ring-a {
-  transform: translateX(25px);
+  transform: translate(39px, 14px) rotate(360deg);
+}
+[data-dwelling="true"] .penne-ring-a-over {
+  transform: translate(39px, 14px);
 }
 [data-dwelling="true"] .penne-ring-b {
-  transform: translateX(39px);
+  transform: translate(53px, 14px) rotate(-360deg);
 }
 @keyframes penne-rings-pop {
   50% {
@@ -176,6 +187,26 @@ body {
 }
 [data-active="true"] .penne-intro-body {
   animation: penne-fade-up 900ms var(--ease-out) 350ms both;
+}
+
+/* Selo grande da abertura: entra junto com o título e as alianças giram
+   devagar, cada uma pro seu lado, no próprio eixo. O entrelaçado fica parado;
+   o giro aparece na hachura e no brilho do rosé. */
+@keyframes penne-seal-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.penne-seal .penne-seal-ring-a,
+.penne-seal .penne-seal-ring-b {
+  transform-origin: 0 0;
+  animation: penne-seal-spin 30s linear infinite;
+}
+.penne-seal .penne-seal-ring-b {
+  animation-direction: reverse;
+}
+[data-active="true"] .penne-intro-seal {
+  animation: penne-fade-in 1200ms ease 200ms both;
 }
 
 /* ---------- Modo carrossel ---------- */
@@ -272,7 +303,10 @@ body {
     object-position: 50% 0;
   }
   [data-active="true"] .penne-line > span,
-  [data-active="true"] .penne-intro-body {
+  [data-active="true"] .penne-intro-body,
+  [data-active="true"] .penne-intro-seal,
+  .penne-seal .penne-seal-ring-a,
+  .penne-seal .penne-seal-ring-b {
     animation: none;
   }
 }

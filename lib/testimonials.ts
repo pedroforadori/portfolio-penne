@@ -35,15 +35,12 @@ const all: Testimonial[] = [
     caseSlug: "fernanda-rafael",
     text: "a lista de presentes funcionou perfeitamente, recomendamos pra quem está organizando o casamento.",
   },
-  // Texto provisório, escrito por nós: só em dev/preview até o casal aprovar
-  // ou mandar o depoimento deles.
   {
     id: "gabriela-vinicius",
     couple: "Gabi & Vini",
     rating: 5,
     caseSlug: "gabriela-vinicius",
     text: "os convidados confirmaram presença rapidinho e todo mundo elogiou o site 🧡",
-    draft: true,
   },
   {
     id: "tanne-pedro",
@@ -51,7 +48,6 @@ const all: Testimonial[] = [
     rating: 5,
     caseSlug: "tanne-pedro",
     text: "entenderam a nossa história e colocaram ela no site, ficou a nossa cara.",
-    draft: true,
   },
 ];
 

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Anton, Geist, Geist_Mono, Cormorant_Garamond } from "next/font/google";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site-config";
+import { Analytics } from "@/components/Analytics";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -70,7 +71,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="pt-BR"
       className={`${geistSans.variable} ${geistMono.variable} ${cormorant.variable} ${anton.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

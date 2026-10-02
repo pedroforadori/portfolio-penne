@@ -3,8 +3,26 @@ import { SESSION_COOKIE, verifySessionToken } from "@/lib/auth";
 
 const INTERNAL_ADMIN_PREFIX = "/admin-internal";
 
+// Domínio público definido em NEXT_PUBLIC_SITE_URL (ex.: pennecasamentos.com.br).
+const canonicalHost = process.env.NEXT_PUBLIC_SITE_URL
+  ? new URL(process.env.NEXT_PUBLIC_SITE_URL).host
+  : null;
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // Em produção, os endereços *.vercel.app redirecionam pro domínio próprio
+  // pra o Google não indexar o mesmo site em dois lugares. Previews ficam de fora.
+  const host = request.headers.get("host") ?? "";
+  if (
+    process.env.VERCEL_ENV === "production" &&
+    canonicalHost &&
+    host !== canonicalHost &&
+    host.endsWith(".vercel.app")
+  ) {
+    const url = new URL(request.nextUrl.pathname + request.nextUrl.search, `https://${canonicalHost}`);
+    return NextResponse.redirect(url, 308);
+  }
 
   // A rota interna nunca deve ser acessível pelo caminho literal —
   // só é alcançada via rewrite abaixo, a partir do ADMIN_PATH secreto.

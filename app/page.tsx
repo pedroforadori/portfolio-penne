@@ -5,6 +5,7 @@ import type { Site } from "@/lib/types";
 import { casePath } from "@/lib/case-copy";
 import Home from "@/components/home/Home";
 import { getPosts } from "@/lib/blog";
+import { testimonials } from "@/lib/testimonials";
 
 // Gerada uma vez e servida do cache; o admin revalida ao salvar. A hora é
 // rede de segurança pra mudanças feitas fora do admin (ex.: script de capturas).
@@ -73,6 +74,14 @@ function structuredData(sites: Site[]) {
   };
 }
 
+// Liga cada avaliação à página do case, quando o case ainda existe.
+function withCaseLinks(sites: Site[]) {
+  return testimonials.map((testimonial) => {
+    const site = sites.find((s) => s.slug === testimonial.caseSlug);
+    return site ? { ...testimonial, caseHref: casePath(site) } : testimonial;
+  });
+}
+
 export default async function Page() {
   const [sites, posts] = await Promise.all([getSites().then(withLocalPreviews), getPosts()]);
 
@@ -84,7 +93,7 @@ export default async function Page() {
           __html: JSON.stringify(structuredData(sites)).replace(/</g, "\\u003c"),
         }}
       />
-      <Home sites={sites} posts={posts.slice(0, 3)} />
+      <Home sites={sites} posts={posts.slice(0, 3)} testimonials={withCaseLinks(sites)} />
     </>
   );
 }

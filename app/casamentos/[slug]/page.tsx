@@ -12,6 +12,7 @@ import {
   splitCouple,
 } from "@/lib/case-copy";
 import RollText from "@/components/home/RollText";
+import { testimonials } from "@/lib/testimonials";
 import { getPosts } from "@/lib/blog";
 
 export const revalidate = 3600;
@@ -96,6 +97,14 @@ export default async function CasePage({ params }: PageProps<"/casamentos/[slug]
           >
             <RollText text="← Todos os casamentos" />
           </Link>
+          {testimonials.length > 0 && (
+            <Link
+              href="/#avaliacoes"
+              className="penne-roll font-mono text-xs uppercase leading-[1.3] text-cream/70 hover:text-cream"
+            >
+              <RollText text="Avaliações" />
+            </Link>
+          )}
           {posts.length > 0 && (
             <Link
               href="/blog"

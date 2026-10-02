@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { formatPostDate, getPost, getPosts, postPath } from "@/lib/blog";
 import { SITE_NAME, SITE_URL, whatsappUrl } from "@/lib/site-config";
 import RollText from "@/components/home/RollText";
+import { testimonials } from "@/lib/testimonials";
 
 export async function generateStaticParams() {
   const posts = await getPosts();
@@ -96,6 +97,14 @@ export default async function PostPage({ params }: PageProps<"/blog/[slug]">) {
           >
             <RollText text="← Blog" />
           </Link>
+          {testimonials.length > 0 && (
+            <Link
+              href="/#avaliacoes"
+              className="penne-roll font-mono text-xs uppercase leading-[1.3] text-cream/70 hover:text-cream"
+            >
+              <RollText text="Avaliações" />
+            </Link>
+          )}
         </nav>
       </header>
 

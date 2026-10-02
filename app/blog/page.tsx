@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getPosts, postPath } from "@/lib/blog";
 import { SITE_NAME, SITE_URL } from "@/lib/site-config";
 import RollText from "@/components/home/RollText";
+import { testimonials } from "@/lib/testimonials";
 
 const BLOG_TITLE = "Blog: dicas para o site do casamento";
 const BLOG_DESCRIPTION =
@@ -53,6 +54,14 @@ export default async function BlogPage() {
           >
             <RollText text="← Todos os casamentos" />
           </Link>
+          {testimonials.length > 0 && (
+            <Link
+              href="/#avaliacoes"
+              className="penne-roll font-mono text-xs uppercase leading-[1.3] text-cream/70 hover:text-cream"
+            >
+              <RollText text="Avaliações" />
+            </Link>
+          )}
         </nav>
       </header>
 

@@ -9,16 +9,26 @@ import CarouselView from "./CarouselView";
 import Intro from "./Intro";
 import RollText from "./RollText";
 import SiteSlide from "./SiteSlide";
+import TestimonialsSlide, { type HomeTestimonial } from "./TestimonialsSlide";
 import ViewMenu, { type ViewMode } from "./ViewMenu";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-export default function Home({ sites, posts }: { sites: Site[]; posts: PostMeta[] }) {
+export default function Home({
+  sites,
+  posts,
+  testimonials,
+}: {
+  sites: Site[];
+  posts: PostMeta[];
+  testimonials: HomeTestimonial[];
+}) {
   const scrollerRef = useRef<HTMLDivElement>(null);
   // -1 é a abertura; daí em diante, o índice do case na tela. Depois do
-  // último case vem a tela do blog.
+  // último case vêm a tela das avaliações e a do blog.
   const [current, setCurrent] = useState(-1);
-  const blogIndex = sites.length;
+  const testimonialsIndex = sites.length;
+  const blogIndex = sites.length + (testimonials.length > 0 ? 1 : 0);
   const onCase = current >= 0 && current < sites.length;
   const [mode, setMode] = useState<ViewMode>("slides");
 
@@ -27,6 +37,25 @@ export default function Home({ sites, posts }: { sites: Site[]; posts: PostMeta[
       ?.querySelector('[data-index="0"]')
       ?.scrollIntoView({ behavior: "smooth" });
   };
+
+  // Do header (e de /#avaliacoes): sai do carrossel, se for o caso, e desce
+  // até a tela das avaliações.
+  const scrollToTestimonials = (behavior: ScrollBehavior) => {
+    scrollerRef.current
+      ?.querySelector(`[data-index="${testimonialsIndex}"]`)
+      ?.scrollIntoView({ behavior });
+  };
+  const goToTestimonials = () => {
+    setMode("slides");
+    scrollToTestimonials("smooth");
+  };
+
+  // A âncora fica dentro do scroller fixo, então o navegador não chega nela
+  // sozinho quando alguém abre /#avaliacoes vindo de outra página.
+  useEffect(() => {
+    if (window.location.hash === "#avaliacoes") scrollToTestimonials("instant");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const changeMode = (next: ViewMode) => {
     setMode(next);
@@ -56,7 +85,7 @@ export default function Home({ sites, posts }: { sites: Site[]; posts: PostMeta[
     );
     scroller.querySelectorAll("[data-slide]").forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, [sites.length, posts.length]);
+  }, [sites.length, posts.length, testimonials.length]);
 
   return (
     <div className="penne fixed inset-0 bg-night text-cream">
@@ -77,6 +106,13 @@ export default function Home({ sites, posts }: { sites: Site[]; posts: PostMeta[
             near={Math.abs(index - current) === 1}
           />
         ))}
+        {testimonials.length > 0 && (
+          <TestimonialsSlide
+            testimonials={testimonials}
+            index={testimonialsIndex}
+            active={current === testimonialsIndex}
+          />
+        )}
         {posts.length > 0 && (
           <BlogSlide posts={posts} index={blogIndex} active={current === blogIndex} />
         )}
@@ -88,7 +124,7 @@ export default function Home({ sites, posts }: { sites: Site[]; posts: PostMeta[
         </div>
       )}
 
-      {/* Aparece só nos cases (nem na abertura, nem na tela do blog) */}
+      {/* Aparece só nos cases (nem na abertura, nem nas telas do fim) */}
       <ViewMenu mode={mode} visible={onCase || mode === "carousel"} onChange={changeMode} />
 
       <header className="pointer-events-none fixed inset-x-0 top-0 z-20 flex items-start justify-between p-6 sm:p-10">
@@ -103,8 +139,9 @@ export default function Home({ sites, posts }: { sites: Site[]; posts: PostMeta[
           >
             <RollText text="Orçamento no WhatsApp ↗" />
           </a>
-          {/* Blog e contador na mesma linha: no celular o menu de modos fica logo abaixo */}
-          <div className="flex items-center gap-4 font-mono text-xs leading-none">
+          {/* Contador e links na mesma linha: no celular o menu de modos fica
+              logo abaixo. Do lg pra cima, os links vão pro centro do header. */}
+          <div className="flex items-center gap-4 font-mono text-xs leading-[1.3]">
             {sites.length > 0 && (
               <span
                 className={`tabular-nums text-cream/70 transition-opacity duration-500 ${onCase || mode === "carousel" ? "" : "opacity-0"}`}
@@ -112,14 +149,31 @@ export default function Home({ sites, posts }: { sites: Site[]; posts: PostMeta[
                 {pad(Math.min(Math.max(current, 0), sites.length - 1) + 1)} / {pad(sites.length)}
               </span>
             )}
-            {posts.length > 0 && (
-              <Link
-                href="/blog"
-                className="penne-roll pointer-events-auto uppercase text-cream/70 [text-shadow:0_0_12px_rgb(0_0_0/0.6)] hover:text-cream"
-              >
-                <RollText text="Blog" />
-              </Link>
-            )}
+            <nav
+              aria-label="Menu"
+              className="flex items-center gap-4 lg:absolute lg:left-1/2 lg:top-[42px] lg:-translate-x-1/2 lg:gap-8"
+            >
+              {testimonials.length > 0 && (
+                <a
+                  href="#avaliacoes"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    goToTestimonials();
+                  }}
+                  className="penne-roll pointer-events-auto uppercase text-cream/70 [text-shadow:0_0_12px_rgb(0_0_0/0.6)] hover:text-cream"
+                >
+                  <RollText text="Avaliações" />
+                </a>
+              )}
+              {posts.length > 0 && (
+                <Link
+                  href="/blog"
+                  className="penne-roll pointer-events-auto uppercase text-cream/70 [text-shadow:0_0_12px_rgb(0_0_0/0.6)] hover:text-cream"
+                >
+                  <RollText text="Blog" />
+                </Link>
+              )}
+            </nav>
           </div>
         </div>
       </header>

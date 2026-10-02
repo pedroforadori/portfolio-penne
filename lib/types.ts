@@ -36,3 +36,15 @@ export type PostMeta = {
   draft?: boolean;
   readingMinutes: number;
 };
+
+// Depoimento de um casal, em lib/testimonials.ts. `caseSlug` liga ao case do
+// casal no portfólio; o link só aparece se o case existir.
+export type Testimonial = {
+  id: string;
+  couple: string;
+  text: string;
+  rating: 1 | 2 | 3 | 4 | 5;
+  caseSlug?: string;
+  // Exemplo/rascunho: aparece só em dev e nos previews da Vercel.
+  draft?: boolean;
+};

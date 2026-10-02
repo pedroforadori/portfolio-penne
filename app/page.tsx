@@ -4,6 +4,7 @@ import { SITE_DESCRIPTION, SITE_NAME, SITE_URL, WHATSAPP_DISPLAY, whatsappUrl } 
 import type { Site } from "@/lib/types";
 import { casePath } from "@/lib/case-copy";
 import Home from "@/components/home/Home";
+import { getPosts } from "@/lib/blog";
 
 // Gerada uma vez e servida do cache; o admin revalida ao salvar. A hora é
 // rede de segurança pra mudanças feitas fora do admin (ex.: script de capturas).
@@ -41,6 +42,15 @@ function structuredData(sites: Site[]) {
         publisher: { "@id": organization["@id"] },
       },
       {
+        "@type": "Blog",
+        "@id": `${SITE_URL}/blog#blog`,
+        url: `${SITE_URL}/blog`,
+        name: "Blog da Penne",
+        inLanguage: "pt-BR",
+        isPartOf: { "@id": `${SITE_URL}/#website` },
+        publisher: { "@id": organization["@id"] },
+      },
+      {
         "@type": "CollectionPage",
         "@id": `${SITE_URL}/#portfolio`,
         url: SITE_URL,
@@ -64,7 +74,7 @@ function structuredData(sites: Site[]) {
 }
 
 export default async function Page() {
-  const sites = withLocalPreviews(await getSites());
+  const [sites, posts] = await Promise.all([getSites().then(withLocalPreviews), getPosts()]);
 
   return (
     <>
@@ -74,7 +84,7 @@ export default async function Page() {
           __html: JSON.stringify(structuredData(sites)).replace(/</g, "\\u003c"),
         }}
       />
-      <Home sites={sites} />
+      <Home sites={sites} posts={posts.slice(0, 3)} />
     </>
   );
 }

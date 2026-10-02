@@ -16,3 +16,23 @@ export type Site = {
   order: number;
   createdAt: string;
 };
+
+// Metadados de um post do blog: cada content/blog/<slug>.mdx exporta `post`
+// com estes campos (menos os calculados, slug e readingMinutes).
+export type PostMeta = {
+  slug: string;
+  title: string;
+  description: string;
+  // AAAA-MM-DD. Vai no JSON-LD e no sitemap; a página não mostra.
+  publishedAt: string;
+  // Quando existe, a página mostra "Atualizado em …".
+  updatedAt?: string;
+  // Desempate entre posts publicados no mesmo dia (menor primeiro).
+  order?: number;
+  keyword: string;
+  // Slugs dos cases citados no post.
+  cases?: string[];
+  // Rascunho: aparece só em dev e nos previews da Vercel, nunca em produção.
+  draft?: boolean;
+  readingMinutes: number;
+};

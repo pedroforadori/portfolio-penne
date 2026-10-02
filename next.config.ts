@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import createMDX from "@next/mdx";
 
 const nextConfig: NextConfig = {
   turbopack: {
@@ -14,4 +15,10 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+// Posts do blog em content/blog/*.mdx. Plugin passado pelo nome: o Turbopack
+// não aceita funções na config do MDX.
+const withMDX = createMDX({
+  options: { remarkPlugins: ["remark-gfm"] },
+});
+
+export default withMDX(nextConfig);

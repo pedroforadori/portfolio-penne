@@ -12,6 +12,7 @@ import {
   splitCouple,
 } from "@/lib/case-copy";
 import RollText from "@/components/home/RollText";
+import { getPosts } from "@/lib/blog";
 
 export const revalidate = 3600;
 
@@ -39,7 +40,7 @@ export async function generateMetadata({
 
 export default async function CasePage({ params }: PageProps<"/casamentos/[slug]">) {
   const { slug } = await params;
-  const sites = await getSites();
+  const [sites, posts] = await Promise.all([getSites(), getPosts()]);
   const index = sites.findIndex((s) => s.slug === slug);
   if (index === -1) notFound();
 
@@ -88,12 +89,22 @@ export default async function CasePage({ params }: PageProps<"/casamentos/[slug]
       <header className="flex items-start justify-between p-6 sm:p-10">
         {/* Espaço reservado pro logo */}
         <div aria-hidden className="h-[30px] w-24" />
-        <Link
-          href="/"
-          className="penne-roll font-mono text-xs uppercase leading-none text-cream/70 hover:text-cream"
-        >
-          <RollText text="← Todos os casamentos" />
-        </Link>
+        <nav className="flex items-center gap-6">
+          <Link
+            href="/"
+            className="penne-roll font-mono text-xs uppercase leading-[1.3] text-cream/70 hover:text-cream"
+          >
+            <RollText text="← Todos os casamentos" />
+          </Link>
+          {posts.length > 0 && (
+            <Link
+              href="/blog"
+              className="penne-roll font-mono text-xs uppercase leading-[1.3] text-cream/70 hover:text-cream"
+            >
+              <RollText text="Blog" />
+            </Link>
+          )}
+        </nav>
       </header>
 
       <main className="px-6 pb-16 sm:px-10">

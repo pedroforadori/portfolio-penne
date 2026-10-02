@@ -94,3 +94,32 @@ As capturas de página inteira vão pra `public/previews/` (fora do git) e o
 
 Sites que rolam dentro de um container próprio (em vez da página) saem só
 com a primeira dobra na captura de página inteira.
+
+## Blog
+
+Posts em `content/blog/<slug>.mdx`, publicados em `/blog/<slug>`. Cada
+arquivo começa com `export const post = { title, description, publishedAt,
+keyword, cases, draft, … }` (o tipo é `PostMeta` em `lib/types.ts`). Dentro do
+texto dá pra usar `<CaseCard slug="…" />` e `<WhatsAppCta />`
+(`mdx-components.tsx`).
+
+- `draft: true` aparece só em `next dev` e nos previews da Vercel, com a marca
+  "Rascunho". Em produção, o post não existe até tirar o `draft`.
+- A data (`publishedAt`) vai no sitemap e no JSON-LD; a página não mostra.
+  `updatedAt` aparece como "Atualizado em …".
+- A home ganha a tela "Dicas pro casamento" depois do último case e o link
+  "Blog" no cabeçalho, só quando há pelo menos um post publicado.
+
+### Rascunhos pelo agente
+
+A skill `/blog-post` (`.claude/skills/blog-post/SKILL.md`) escreve um
+rascunho seguindo o guia editorial, marca com `{/* PENNE: … */}` os trechos
+que pedem experiência real e abre um PR. Sem argumentos, ela pega o próximo
+tema de `content/blog/PAUTA.md`; dá pra escolher na hora:
+
+```
+/blog-post tema="Cotas de lua de mel" palavra-chave="cotas lua de mel" cases=gabriela-vinicius
+```
+
+Uma rotina semanal do Claude Code roda `/blog-post` e deixa o PR pronto para
+revisão. Nada vai ao ar sem o merge.

@@ -37,8 +37,9 @@ yarn-error.log*
 # vercel
 .vercel
 
-# claude code local settings
-.claude/
+# claude code local settings (as skills do projeto entram no git)
+.claude/*
+!.claude/skills/
 
 # typescript
 *.tsbuildinfo

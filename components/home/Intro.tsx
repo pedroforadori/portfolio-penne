@@ -1,17 +1,6 @@
 import { PenneSeal } from "@/components/PenneLogo";
 import RollText from "./RollText";
 
-// Cada passo tem um texto pra mouse e outro pra tela de toque, onde o site
-// aparece sozinho depois de um instante no case.
-const STEPS = [
-  { mouse: "Role a página: um casamento por tela", touch: "Role a página: um casamento por tela" },
-  {
-    mouse: "Pare o mouse sobre o nome do casal e o site aparece no fundo",
-    touch: "Espere um instante e o site aparece no fundo",
-  },
-  { mouse: "Clique no nome pra abrir o site ao vivo", touch: "Toque no nome pra abrir o site ao vivo" },
-];
-
 export default function Intro({
   active,
   hasSites,
@@ -54,7 +43,7 @@ export default function Intro({
           </span>
         </h1>
 
-        <div className="penne-intro-body mt-4 grid gap-5 sm:mt-10 sm:gap-8 lg:grid-cols-[minmax(0,28rem)_minmax(0,1fr)] lg:items-end lg:gap-16">
+        <div className="penne-intro-body mt-4 grid gap-5 sm:mt-10 sm:gap-8 lg:relative lg:grid-cols-[minmax(0,28rem)_minmax(0,1fr)] lg:items-end lg:gap-16">
           <p className="max-w-md text-[15px] leading-normal text-cream/75 sm:text-lg sm:leading-relaxed">
             A Penne cria sites de casamento sob medida, com convite digital, confirmação de
             presença, lista de presentes e a história do casal, tudo com a cara de vocês. Se
@@ -62,22 +51,15 @@ export default function Intro({
             casais que já ganharam o seu.
           </p>
 
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-            <ol className="flex flex-col gap-1.5 font-mono sm:gap-2.5 text-[11px] uppercase leading-snug text-cream/60">
-              {STEPS.map((step, i) => (
-                <li key={i} className="flex gap-3">
-                  <span className="tabular-nums text-cream/55">{String(i + 1).padStart(2, "0")}</span>
-                  <span className="[@media(hover:none)]:hidden">{step.mouse}</span>
-                  <span className="hidden [@media(hover:none)]:inline">{step.touch}</span>
-                </li>
-              ))}
-            </ol>
-
+          {/* Centralizado na tela: embaixo do texto até o tablet; no desktop,
+              onde o texto fica só na coluna da esquerda, no centro da página,
+              alinhado com o fim do parágrafo. */}
+          <div className="flex justify-center lg:pointer-events-none lg:absolute lg:inset-x-0 lg:bottom-0">
             {hasSites && (
               <button
                 type="button"
                 onClick={onStart}
-                className="penne-roll shrink-0 self-start font-display text-lg uppercase leading-none sm:self-auto sm:text-xl"
+                className="penne-roll shrink-0 font-display text-lg uppercase leading-none sm:text-xl lg:pointer-events-auto"
               >
                 <RollText text="Ver os casamentos ↓" />
               </button>

@@ -178,7 +178,7 @@ body {
   animation-delay: 90ms;
 }
 
-/* Abertura: o texto e o tutorial entram logo depois do título */
+/* Abertura: o texto e o botão entram logo depois do título */
 @keyframes penne-fade-up {
   from {
     opacity: 0;

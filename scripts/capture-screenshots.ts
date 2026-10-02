@@ -18,6 +18,12 @@ const DEVICES: Record<Device, BrowserContextOptions> = {
   desktop: { viewport: { width: 1440, height: 900 } },
 };
 
+// Altura máxima da captura, em pixels da imagem. Acima de 16383 px o otimizador
+// do Next não consegue gerar WebP (limite do formato) e entrega o JPEG cru, e o
+// Safari do iPhone deixa de desenhar imagens tão grandes. O fundo da home só
+// percorre o começo do site mesmo.
+const MAX_CAPTURE_PX = 12000;
+
 if (!process.env.BLOB_READ_WRITE_TOKEN) {
   console.error("BLOB_READ_WRITE_TOKEN não configurado.");
   process.exit(1);
@@ -100,7 +106,17 @@ async function main() {
         await page.goto(site.liveUrl, { waitUntil: "networkidle", timeout: 30000 });
         await page.waitForTimeout(1500);
         await warmUpFullPage(page);
-        const buffer = await page.screenshot({ type: "jpeg", quality: 80, fullPage: true });
+        const { width, height } = await page.evaluate(() => ({
+          width: window.innerWidth,
+          height: document.documentElement.scrollHeight,
+        }));
+        const scale = DEVICES[device].deviceScaleFactor ?? 1;
+        const buffer = await page.screenshot({
+          type: "jpeg",
+          quality: 80,
+          fullPage: true,
+          clip: { x: 0, y: 0, width, height: Math.min(height, MAX_CAPTURE_PX / scale) },
+        });
 
         if (LOCAL) {
           await writeFile(path.join(LOCAL_DIR, `${site.slug}-${device}.jpg`), buffer);

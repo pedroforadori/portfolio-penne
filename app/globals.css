@@ -280,6 +280,83 @@ body {
   animation: penne-prev-out 600ms var(--ease-out);
 }
 
+/* Tooltip das setas: um cartãozinho com uma telinha de computador rolando a
+   home da tela atual até o destino da seta. Só onde há
+   mouse (no celular cobriria a outra seta, e o toque já leva direto), ou com
+   foco pelo teclado. Entra descendo um pouco e esmaecendo, com um atraso
+   curto pra não piscar ao passar o mouse. */
+.penne-tip {
+  --mini-w: 96px;
+  --mini-h: 60px;
+  pointer-events: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  border: 1px solid rgb(244 237 230 / 0.15);
+  border-radius: 10px;
+  background: rgb(23 20 18 / 0.95);
+  color: var(--cream);
+  padding: 12px 14px;
+  font-size: 11px;
+  line-height: 1.3;
+  text-shadow: none;
+  box-shadow: 0 16px 40px rgb(0 0 0 / 0.5);
+  opacity: 0;
+  transform: translate(-50%, -4px) scale(0.96);
+  transition:
+    opacity 180ms ease,
+    transform 300ms var(--ease-out);
+}
+.penne-prev:focus-visible .penne-tip {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+  transition-delay: 120ms;
+}
+@media (hover: hover) {
+  .penne-prev:hover .penne-tip {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+    transition-delay: 120ms;
+  }
+}
+
+.penne-mini-screen {
+  width: calc(var(--mini-w) + 2px);
+  height: calc(var(--mini-h) + 2px);
+}
+.penne-mini-slide {
+  width: var(--mini-w);
+  height: var(--mini-h);
+}
+/* A pilha de telas parada na atual; no hover, rola até o destino e repete */
+.penne-mini-col {
+  transform: translateY(calc(var(--from) * var(--mini-h) * -1));
+}
+@keyframes penne-mini-scroll {
+  0%,
+  22% {
+    transform: translateY(calc(var(--from) * var(--mini-h) * -1));
+  }
+  72%,
+  100% {
+    transform: translateY(calc(var(--to) * var(--mini-h) * -1));
+  }
+}
+.penne-prev:focus-visible .penne-mini-col {
+  animation: penne-mini-scroll 2.6s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+@media (hover: hover) {
+  .penne-prev:hover .penne-mini-col {
+    animation: penne-mini-scroll 2.6s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
+}
+
 /* Texto que rola letra por letra no hover */
 .penne-roll-char {
   display: inline-flex;
@@ -299,6 +376,12 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .penne-prev-arrow {
+    animation: none !important;
+  }
+  .penne-tip {
+    transition-duration: 1ms !important;
+  }
+  .penne-mini-col {
     animation: none !important;
   }
   .penne-card,

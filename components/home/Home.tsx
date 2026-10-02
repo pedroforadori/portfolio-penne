@@ -8,7 +8,8 @@ import BlogSlide from "./BlogSlide";
 import CarouselView from "./CarouselView";
 import Intro from "./Intro";
 import RollText from "./RollText";
-import PrevButton from "./PrevButton";
+import PrevButton, { type MiniScreen } from "./PrevButton";
+import { accentColor } from "./CoupleName";
 import SideNav from "./SideNav";
 import SiteSlide from "./SiteSlide";
 import TestimonialsSlide, { type HomeTestimonial } from "./TestimonialsSlide";
@@ -49,6 +50,24 @@ export default function Home({
       ?.querySelector('[data-index="-1"]')
       ?.scrollIntoView({ behavior: "smooth" });
   };
+
+  // Nome de cada tela pro tooltip da seta "Voltar um".
+  const screenName = (index: number) =>
+    index < 0
+      ? "a abertura"
+      : index < sites.length
+        ? sites[index].couple
+        : index === testimonialsIndex && testimonials.length > 0
+          ? "as avaliações"
+          : "o blog";
+
+  // Todas as telas da home em miniatura, pro tooltip das setas.
+  const miniScreens: MiniScreen[] = [
+    { kind: "intro" },
+    ...sites.map((site) => ({ kind: "case" as const, accent: accentColor(site) })),
+    ...(testimonials.length > 0 ? [{ kind: "testimonials" as const }] : []),
+    ...(posts.length > 0 ? [{ kind: "blog" as const }] : []),
+  ];
 
   // Seta "↑": volta uma tela (do primeiro case, pra abertura).
   const goToPrevious = () => {
@@ -153,6 +172,9 @@ export default function Home({
       <ViewMenu mode={mode} visible={floatingMenus} onChange={changeMode} />
       <PrevButton
         canGoBack={mode === "slides" && current >= 0}
+        screens={miniScreens}
+        position={current + 1}
+        backHint={`Ir para ${screenName(current - 1)}`}
         onBack={goToPrevious}
         onHome={goToIntro}
       />

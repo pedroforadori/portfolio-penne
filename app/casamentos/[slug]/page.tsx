@@ -86,9 +86,8 @@ export default async function CasePage({ params }: PageProps<"/casamentos/[slug]
       />
 
       <header className="flex items-start justify-between p-6 sm:p-10">
-        <Link href="/" className="font-serif text-3xl italic leading-none">
-          Penne
-        </Link>
+        {/* Espaço reservado pro logo */}
+        <div aria-hidden className="h-[30px] w-24" />
         <Link
           href="/"
           className="penne-roll font-mono text-xs uppercase leading-none text-cream/70 hover:text-cream"

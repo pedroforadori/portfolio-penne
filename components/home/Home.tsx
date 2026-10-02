@@ -84,7 +84,8 @@ export default function Home({ sites }: { sites: Site[] }) {
       <ViewMenu mode={mode} visible={current >= 0} onChange={changeMode} />
 
       <header className="pointer-events-none fixed inset-x-0 top-0 z-20 flex items-start justify-between p-6 sm:p-10">
-        <span className="font-serif text-3xl italic leading-none">Penne</span>
+        {/* Espaço reservado pro logo */}
+        <div aria-hidden className="h-[30px] w-24" />
         <div className="flex flex-col items-end gap-3">
           <a
             href={whatsappUrl()}

@@ -38,9 +38,9 @@ export default function Home({
   // Menus flutuantes (modos à direita, Avaliações/Blog à esquerda): só nos
   // cases e no carrossel, não na abertura nem nas telas do fim.
   const floatingMenus = onCase || mode === "carousel";
-  // Avaliações/Blog à esquerda (SideNav): em tudo depois da abertura — cases,
-  // carrossel e as telas das avaliações e do blog, que seguem o layout dos
-  // cases.
+  // Avaliações/Blog à esquerda (SideNav, do sm pra cima): em tudo depois da
+  // abertura — cases, carrossel e as telas das avaliações e do blog, que
+  // seguem o layout dos cases. No celular ficam sempre no header.
   const sideNavVisible = floatingMenus || current >= sites.length;
 
   // Do logo no header: já estamos em "/", então só sobe pra abertura.
@@ -220,12 +220,13 @@ export default function Home({
                 {pad(Math.min(Math.max(current, 0), sites.length - 1) + 1)} / {pad(sites.length)}
               </span>
             )}
-            {/* Só na abertura: depois dela os links vão pro SideNav, e o
-                centro do header fica pras setas de voltar. */}
+            {/* No celular, sempre aqui. Do sm pra cima, só na abertura: depois
+                dela os links vão pro SideNav, e o centro do header fica pras
+                setas de voltar. */}
             <nav
               aria-label="Menu"
-              className={`items-center gap-4 lg:absolute lg:left-1/2 lg:top-[42px] lg:-translate-x-1/2 lg:gap-8 ${
-                sideNavVisible ? "hidden" : "flex"
+              className={`flex items-center gap-4 lg:absolute lg:left-1/2 lg:top-[42px] lg:-translate-x-1/2 lg:gap-8 ${
+                sideNavVisible ? "sm:hidden" : ""
               }`}
             >
               {testimonials.length > 0 && (

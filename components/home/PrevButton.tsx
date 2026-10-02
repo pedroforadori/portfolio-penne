@@ -9,10 +9,9 @@ export type MiniScreen =
 
 // Setas pra voltar, com legenda: "↑ Voltar um" volta uma tela (do primeiro
 // case, pra abertura) e "⤒ Voltar tudo" volta ao início — as duas sempre
-// juntas, mesmo no primeiro case, onde levam ao mesmo lugar. Centralizadas no
-// alto: lado a lado no header do sm pra cima (o centro dele fica livre depois
-// da abertura); no celular, uma embaixo da outra, entre os menus flutuantes,
-// porque o centro do header é do WhatsApp. No hover a seta sai por cima e
+// juntas, mesmo no primeiro case, onde levam ao mesmo lugar. Centralizadas
+// e lado a lado no header (o centro dele fica livre depois da abertura). Só
+// do sm pra cima: no celular não há setas. No hover a seta sai por cima e
 // volta por baixo, e um tooltip mostra uma telinha de computador rolando a
 // home da tela atual até o destino (sem legenda visível).
 export default function PrevButton({
@@ -35,7 +34,7 @@ export default function PrevButton({
   return (
     <div
       inert={!canGoBack}
-      className={`fixed left-1/2 top-24 z-30 flex -translate-x-1/2 flex-col items-start gap-1 font-mono text-[11px] [text-shadow:0_0_12px_rgb(0_0_0/0.6)] transition-opacity duration-500 sm:top-8 sm:flex-row sm:items-center sm:gap-5 sm:text-xs ${
+      className={`fixed left-1/2 top-8 z-30 hidden -translate-x-1/2 items-center gap-5 whitespace-nowrap font-mono text-xs [text-shadow:0_0_12px_rgb(0_0_0/0.6)] transition-opacity duration-500 sm:flex ${
         canGoBack ? "" : "pointer-events-none opacity-0"
       }`}
     >

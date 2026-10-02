@@ -54,7 +54,9 @@ async function upload(pathname: string, buffer: Buffer): Promise<string> {
     allowOverwrite: true,
     addRandomSuffix: false,
   });
-  return blob.url;
+  // O arquivo é sobrescrito na mesma URL; a versão faz o otimizador de imagens
+  // da Vercel (que guarda pelo endereço) buscar a captura nova.
+  return `${blob.url}?v=${Date.now()}`;
 }
 
 // Rola até o fim e volta, pra disparar lazy-load de imagens e animações de

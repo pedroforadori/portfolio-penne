@@ -86,7 +86,9 @@ export default function SiteSlide({
       {/* Separa o cabeçalho da Penne do menu do próprio site quando revelado */}
       <div className="penne-top-veil absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-night/80 to-transparent" />
 
-      <div className="absolute inset-x-0 bottom-0 p-6 sm:p-10">
+      {/* Do sm pra cima, começa à direita do menu Avaliações/Blog (SideNav),
+          que fica no meio da tela à esquerda */}
+      <div className="absolute inset-x-0 bottom-0 p-6 sm:p-10 sm:pl-44">
         <a
           href={site.liveUrl}
           target="_blank"

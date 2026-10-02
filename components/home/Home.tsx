@@ -8,6 +8,7 @@ import BlogSlide from "./BlogSlide";
 import CarouselView from "./CarouselView";
 import Intro from "./Intro";
 import RollText from "./RollText";
+import SideNav from "./SideNav";
 import SiteSlide from "./SiteSlide";
 import TestimonialsSlide, { type HomeTestimonial } from "./TestimonialsSlide";
 import ViewMenu, { type ViewMode } from "./ViewMenu";
@@ -32,6 +33,9 @@ export default function Home({
   const blogIndex = sites.length + (testimonials.length > 0 ? 1 : 0);
   const onCase = current >= 0 && current < sites.length;
   const [mode, setMode] = useState<ViewMode>("slides");
+  // Menus flutuantes (modos à direita, Avaliações/Blog à esquerda): só nos
+  // cases e no carrossel, não na abertura nem nas telas do fim.
+  const floatingMenus = onCase || mode === "carousel";
 
   // Do logo no header: já estamos em "/", então só sobe pra abertura.
   const goToIntro = () => {
@@ -134,7 +138,13 @@ export default function Home({
       )}
 
       {/* Aparece só nos cases (nem na abertura, nem nas telas do fim) */}
-      <ViewMenu mode={mode} visible={onCase || mode === "carousel"} onChange={changeMode} />
+      <ViewMenu mode={mode} visible={floatingMenus} onChange={changeMode} />
+      <SideNav
+        visible={floatingMenus}
+        showTestimonials={testimonials.length > 0}
+        showBlog={posts.length > 0}
+        onTestimonials={goToTestimonials}
+      />
 
       <header className="pointer-events-none fixed inset-x-0 top-0 z-20 flex items-start justify-between p-6 sm:p-10">
         {/* Na abertura o selo grande já está na tela; ao rolar, ficam só as
@@ -171,9 +181,12 @@ export default function Home({
                 {pad(Math.min(Math.max(current, 0), sites.length - 1) + 1)} / {pad(sites.length)}
               </span>
             )}
+            {/* Nos cases (e no carrossel) os links saem daqui e vão pro SideNav */}
             <nav
               aria-label="Menu"
-              className="flex items-center gap-4 lg:absolute lg:left-1/2 lg:top-[42px] lg:-translate-x-1/2 lg:gap-8"
+              className={`items-center gap-4 lg:absolute lg:left-1/2 lg:top-[42px] lg:-translate-x-1/2 lg:gap-8 ${
+                floatingMenus ? "hidden" : "flex"
+              }`}
             >
               {testimonials.length > 0 && (
                 <a

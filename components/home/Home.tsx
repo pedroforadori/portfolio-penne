@@ -8,6 +8,7 @@ import BlogSlide from "./BlogSlide";
 import CarouselView from "./CarouselView";
 import Intro from "./Intro";
 import RollText from "./RollText";
+import PrevButton from "./PrevButton";
 import SideNav from "./SideNav";
 import SiteSlide from "./SiteSlide";
 import TestimonialsSlide, { type HomeTestimonial } from "./TestimonialsSlide";
@@ -36,12 +37,23 @@ export default function Home({
   // Menus flutuantes (modos à direita, Avaliações/Blog à esquerda): só nos
   // cases e no carrossel, não na abertura nem nas telas do fim.
   const floatingMenus = onCase || mode === "carousel";
+  // Avaliações/Blog à esquerda (SideNav): em tudo depois da abertura — cases,
+  // carrossel e as telas das avaliações e do blog, que seguem o layout dos
+  // cases.
+  const sideNavVisible = floatingMenus || current >= sites.length;
 
   // Do logo no header: já estamos em "/", então só sobe pra abertura.
   const goToIntro = () => {
     setMode("slides");
     scrollerRef.current
       ?.querySelector('[data-index="-1"]')
+      ?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  // Seta "↑": volta uma tela (do primeiro case, pra abertura).
+  const goToPrevious = () => {
+    scrollerRef.current
+      ?.querySelector(`[data-index="${current - 1}"]`)
       ?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -139,8 +151,14 @@ export default function Home({
 
       {/* Aparece só nos cases (nem na abertura, nem nas telas do fim) */}
       <ViewMenu mode={mode} visible={floatingMenus} onChange={changeMode} />
+      <PrevButton
+        canGoBack={mode === "slides" && current >= 0}
+        canGoHome={mode === "slides" && current >= 1}
+        onBack={goToPrevious}
+        onHome={goToIntro}
+      />
       <SideNav
-        visible={floatingMenus}
+        visible={sideNavVisible}
         showTestimonials={testimonials.length > 0}
         showBlog={posts.length > 0}
         onTestimonials={goToTestimonials}
@@ -172,7 +190,7 @@ export default function Home({
             <RollText text="Orçamento no WhatsApp ↗" />
           </a>
           {/* Contador e links na mesma linha: no celular o menu de modos fica
-              logo abaixo. Do lg pra cima, os links vão pro centro do header. */}
+              logo abaixo. Na abertura, do lg pra cima, os links vão pro centro do header. */}
           <div className="flex items-center gap-4 font-mono text-xs leading-[1.3]">
             {sites.length > 0 && (
               <span
@@ -181,11 +199,12 @@ export default function Home({
                 {pad(Math.min(Math.max(current, 0), sites.length - 1) + 1)} / {pad(sites.length)}
               </span>
             )}
-            {/* Nos cases (e no carrossel) os links saem daqui e vão pro SideNav */}
+            {/* Só na abertura: depois dela os links vão pro SideNav, e o
+                centro do header fica pras setas de voltar. */}
             <nav
               aria-label="Menu"
               className={`items-center gap-4 lg:absolute lg:left-1/2 lg:top-[42px] lg:-translate-x-1/2 lg:gap-8 ${
-                floatingMenus ? "hidden" : "flex"
+                sideNavVisible ? "hidden" : "flex"
               }`}
             >
               {testimonials.length > 0 && (

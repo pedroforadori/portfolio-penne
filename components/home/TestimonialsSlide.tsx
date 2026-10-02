@@ -60,7 +60,9 @@ export default function TestimonialsSlide({
       aria-labelledby="penne-testimonials-title"
       className="penne-slide relative h-dvh snap-start overflow-hidden"
     >
-      <div className="absolute inset-x-0 bottom-0 p-6 sm:p-10">
+      {/* Mesmo layout dos cases: do sm pra cima, começa à direita do menu
+          Avaliações/Blog (SideNav), que fica no meio da tela à esquerda */}
+      <div className="absolute inset-x-0 bottom-0 p-6 sm:p-10 sm:pl-44">
         <h2
           id="penne-testimonials-title"
           className="font-display text-[17vw] uppercase leading-[0.86] sm:text-[clamp(56px,9vw,150px)]"

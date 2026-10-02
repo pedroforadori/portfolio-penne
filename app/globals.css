@@ -266,6 +266,20 @@ body {
   animation: penne-rise 900ms var(--ease-out) both;
 }
 
+/* Seta "voltar": no hover sai por cima e volta por baixo */
+@keyframes penne-prev-out {
+  50% {
+    transform: translateY(-110%);
+  }
+  50.01% {
+    transform: translateY(110%);
+  }
+}
+.penne-prev:hover .penne-prev-arrow,
+.penne-prev:focus-visible .penne-prev-arrow {
+  animation: penne-prev-out 600ms var(--ease-out);
+}
+
 /* Texto que rola letra por letra no hover */
 .penne-roll-char {
   display: inline-flex;
@@ -284,6 +298,9 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .penne-prev-arrow {
+    animation: none !important;
+  }
   .penne-card,
   .penne-card-image {
     transition-duration: 1ms !important;

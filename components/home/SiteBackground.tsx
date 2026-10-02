@@ -9,33 +9,30 @@ const PAN_SPEED_PX_S = 140;
 
 // Uma camada por faixa de tela (breakpoints sm/lg do Tailwind), cada uma com a
 // captura feita no dispositivo correspondente. Camadas escondidas não baixam a
-// imagem (lazy loading ignora elementos com display: none); `media` repete as faixas das classes, pra pré-carregar só a camada visível.
-const LAYERS: {
-  device: Device;
-  className: string;
-  media: string;
-  width: number;
-  height: number;
-}[] = [
-  { device: "mobile", className: "sm:hidden", media: "(max-width: 639.98px)", width: 390, height: 844 },
+// imagem (lazy loading ignora elementos com display: none). `media` repete
+// as faixas das classes, pra pré-carregar só a camada visível.
+const LAYERS: { device: Device; className: string; media: string }[] = [
+  { device: "mobile", className: "sm:hidden", media: "(max-width: 639.98px)" },
   {
     device: "tablet",
     className: "hidden sm:block lg:hidden",
     media: "(min-width: 640px) and (max-width: 1023.98px)",
-    width: 834,
-    height: 1194,
   },
-  { device: "desktop", className: "hidden lg:block", media: "(min-width: 1024px)", width: 1440, height: 900 },
+  { device: "desktop", className: "hidden lg:block", media: "(min-width: 1024px)" },
 ];
 
 // Mesmas props que o <Image> da camada recebe, pra que o pré-carregamento
-// escolha exatamente o arquivo que ele vai pedir depois.
+// escolha exatamente o arquivo que ele vai pedir depois. Sem captura desse
+// dispositivo, usa o screenshot vertical da home, parado.
 function imageProps(site: Site, layer: (typeof LAYERS)[number]) {
-  const src = site.fullPage?.[layer.device];
-  if (src) return { src, width: layer.width, height: layer.height, sizes: "100vw", alt: "" };
-  // Sem captura desse dispositivo: screenshot vertical da home, parado.
-  if (site.imageUrl) return { src: site.imageUrl, fill: true, sizes: "100vw", alt: "" };
-  return null;
+  const src = site.fullPage?.[layer.device] ?? site.imageUrl;
+  return src ? { src, fill: true, sizes: "100vw", alt: "" } : null;
+}
+
+// Só avisa depois de decodificar: com a imagem apenas baixada, o Safari ainda
+// mostraria um pedaço em branco ao revelar.
+function whenDecoded(image: HTMLImageElement, done: () => void) {
+  image.decode().then(done, done);
 }
 
 export default function SiteBackground({
@@ -68,8 +65,6 @@ export default function SiteBackground({
         <PanningPage
           key={layer.device}
           src={src}
-          width={layer.width}
-          height={layer.height}
           className={layer.className}
           onLoad={onLoad}
         />
@@ -79,7 +74,12 @@ export default function SiteBackground({
     if (!props) return null;
     return (
       <div key={layer.device} className={`penne-bg absolute inset-0 ${layer.className}`}>
-        <Image {...props} alt="" onLoad={onLoad} className="object-cover object-top" />
+        <Image
+          {...props}
+          alt=""
+          onLoad={(e) => whenDecoded(e.currentTarget, onLoad)}
+          className="object-cover object-top"
+        />
       </div>
     );
   });
@@ -88,14 +88,10 @@ export default function SiteBackground({
 // A página inteira, que começa no topo do site e desce devagar quando revelada.
 function PanningPage({
   src,
-  width,
-  height,
   className,
   onLoad,
 }: {
   src: string;
-  width: number;
-  height: number;
   className: string;
   onLoad: () => void;
 }) {
@@ -103,13 +99,15 @@ function PanningPage({
   const imageRef = useRef<HTMLImageElement>(null);
   const [pan, setPan] = useState(0);
 
-  // Quanto a imagem precisa subir pra mostrar o fim do site. Recalcula ao
-  // redimensionar (ex.: tablet girando).
+  // Quanto da página fica abaixo da tela (com object-cover, a captura ocupa a
+  // largura toda). Define a duração da descida; recalcula ao redimensionar
+  // (ex.: tablet girando).
   const measure = () => {
     const viewport = viewportRef.current;
     const image = imageRef.current;
-    if (!viewport || !image) return;
-    setPan(Math.min(0, viewport.clientHeight - image.offsetHeight));
+    if (!viewport || !image?.naturalWidth) return;
+    const pageHeight = (viewport.clientWidth * image.naturalHeight) / image.naturalWidth;
+    setPan(Math.max(0, pageHeight - viewport.clientHeight));
   };
 
   useEffect(() => {
@@ -123,20 +121,14 @@ function PanningPage({
         ref={imageRef}
         src={src}
         alt=""
-        width={width}
-        height={height}
+        fill
         sizes="100vw"
-        onLoad={() => {
+        onLoad={(e) => {
           measure();
-          onLoad();
+          whenDecoded(e.currentTarget, onLoad);
         }}
-        className="penne-page h-auto w-full"
-        style={
-          {
-            "--pan": `${pan}px`,
-            "--pan-duration": `${Math.abs(pan) / PAN_SPEED_PX_S}s`,
-          } as CSSProperties
-        }
+        className="penne-page object-cover"
+        style={{ "--pan-duration": `${pan / PAN_SPEED_PX_S}s` } as CSSProperties}
       />
     </div>
   );

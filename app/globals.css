@@ -40,13 +40,9 @@ body {
 
 /* Imagem do site no fundo: um vulto bem desfocado enquanto o mouse espera,
    e entra nítida quando a espera termina. */
-/* overflow: hidden limita o filtro ao tamanho da tela: sem ele, o blur cobre a
-   página inteira capturada (dezenas de milhares de px) e o Safari do iPhone
-   desiste de desenhar a camada. */
 .penne-bg {
   overflow: hidden;
   opacity: 0;
-  filter: blur(40px) brightness(0.5);
   transform: scale(1.12);
   transition:
     opacity 700ms ease,
@@ -58,19 +54,30 @@ body {
 }
 [data-revealed="true"] .penne-bg {
   opacity: 1;
-  filter: blur(0) brightness(0.9);
   transform: scale(1);
 }
+/* O desfoque fica só onde há mouse: no Safari do iPhone, filtro sobre a
+   captura fazia parte dela não ser desenhada. */
+@media (hover: hover) {
+  .penne-bg {
+    filter: blur(40px) brightness(0.5);
+  }
+  [data-revealed="true"] .penne-bg {
+    filter: blur(0) brightness(0.9);
+  }
+}
 
-/* Desktop: depois de revelada, a página inteira desce devagar. Ao esconder,
-   volta pro topo só depois do fade. */
+/* Depois de revelada, a página inteira desce devagar. A imagem tem o tamanho
+   da tela e quem anda é o object-position: mover a captura inteira com
+   transform cria uma camada gigante que o iPhone pinta só em parte. Ao
+   esconder, volta pro topo só depois do fade. */
 .penne-page {
-  transform: translateY(0);
-  transition: transform 0s linear 700ms;
+  object-position: 50% 0;
+  transition: object-position 0s linear 700ms;
 }
 [data-revealed="true"] .penne-page {
-  transform: translateY(var(--pan));
-  transition: transform var(--pan-duration) cubic-bezier(0.45, 0, 0.55, 1) 1800ms;
+  object-position: 50% 100%;
+  transition: object-position var(--pan-duration) cubic-bezier(0.45, 0, 0.55, 1) 1800ms;
 }
 
 .penne-veil {
@@ -258,9 +265,11 @@ body {
     transition-duration: 1ms;
     transition-delay: 0ms;
   }
-  .penne-bg,
-  [data-revealed="true"] .penne-page {
+  .penne-bg {
     transform: none;
+  }
+  [data-revealed="true"] .penne-page {
+    object-position: 50% 0;
   }
   [data-active="true"] .penne-line > span,
   [data-active="true"] .penne-intro-body {

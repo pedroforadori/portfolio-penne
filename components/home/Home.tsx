@@ -138,9 +138,10 @@ export default function Home({
 
       <header className="pointer-events-none fixed inset-x-0 top-0 z-20 flex items-start justify-between p-6 sm:p-10">
         {/* Na abertura o selo grande já está na tela; ao rolar, ficam só as
-            alianças no header, paradas, como âncora de volta pro início */}
+            alianças no header, paradas, como âncora de volta pro início. Em
+            celular baixo o selo não cabe na abertura, então elas já aparecem. */}
         <div
-          className={`transition-[opacity,visibility] duration-500 ${current === -1 && mode !== "carousel" ? "invisible opacity-0" : ""}`}
+          className={`transition-[opacity,visibility] duration-500 ${current === -1 && mode !== "carousel" ? "invisible opacity-0 [@media(max-width:639.98px)_and_(max-height:680px)]:visible [@media(max-width:639.98px)_and_(max-height:680px)]:opacity-100" : ""}`}
         >
           <PenneLogo
             variant="mark"

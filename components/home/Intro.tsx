@@ -27,13 +27,18 @@ export default function Intro({
       data-index={-1}
       data-active={active}
       aria-labelledby="penne-intro-title"
-      className="penne-slide relative h-dvh snap-start overflow-hidden"
+      className="penne-slide relative flex h-dvh snap-start flex-col overflow-hidden pt-20 sm:block sm:pt-0"
     >
-      {/* No celular o selo fica no alto, onde estaria o do header; do sm pra
-          cima, no vazio à direita do título. */}
-      <PenneSeal className="penne-intro-seal absolute left-6 top-6 size-[min(160px,22dvh)] sm:left-auto sm:right-10 sm:top-1/2 sm:size-[clamp(220px,26vw,360px)] sm:-translate-y-1/2" />
+      {/* No celular a tela é uma coluna: espaço do header, o selo centralizado
+          no vão que sobra (encolhe em tela baixa, sem nunca encostar no
+          título) e o texto embaixo. Do sm pra cima, o selo fica no vazio à
+          direita do título (o wrapper some com sm:contents). Em celular baixo
+          não há vão pro selo: some, e as alianças do header aparecem (Home). */}
+      <div className="flex min-h-0 flex-1 items-center justify-center px-6 py-4 sm:contents [@media(max-width:639.98px)_and_(max-height:680px)]:invisible">
+        <PenneSeal className="penne-intro-seal aspect-square h-full max-h-[220px] sm:absolute sm:right-10 sm:top-1/2 sm:h-auto sm:max-h-none sm:size-[clamp(220px,26vw,360px)] sm:-translate-y-1/2" />
+      </div>
 
-      <div className="absolute inset-x-0 bottom-0 p-6 sm:p-10">
+      <div className="p-6 sm:absolute sm:inset-x-0 sm:bottom-0 sm:p-10">
         <h1
           id="penne-intro-title"
           className="font-display text-[17vw] uppercase leading-[0.86] sm:text-[clamp(56px,11vw,190px)]"

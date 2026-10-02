@@ -1,20 +1,18 @@
 import type { ReactNode } from "react";
 
 // Setas pra voltar, com legenda: "↑ Voltar um" volta uma tela (do primeiro
-// case, pra abertura) e "⤒ Voltar tudo" volta ao início. Centralizadas no
+// case, pra abertura) e "⤒ Voltar tudo" volta ao início — as duas sempre
+// juntas, mesmo no primeiro case, onde levam ao mesmo lugar. Centralizadas no
 // alto: lado a lado no header do sm pra cima (o centro dele fica livre depois
 // da abertura); no celular, uma embaixo da outra, entre os menus flutuantes,
 // porque o centro do header é do WhatsApp. No hover a seta sai por cima e
 // volta por baixo.
 export default function PrevButton({
   canGoBack,
-  canGoHome,
   onBack,
   onHome,
 }: {
   canGoBack: boolean;
-  // Do segundo case em diante: no primeiro, voltar um já é voltar ao início.
-  canGoHome: boolean;
   onBack: () => void;
   onHome: () => void;
 }) {
@@ -28,13 +26,9 @@ export default function PrevButton({
       <Arrow label="Voltar um" onClick={onBack}>
         <path d="M8 23V2M2 8l6-6 6 6" />
       </Arrow>
-      {/* Some do layout (em vez de só ficar transparente) pra "Voltar um"
-          ficar centralizado sozinho no primeiro case */}
-      {canGoHome && (
-        <Arrow label="Voltar tudo" onClick={onHome}>
-          <path d="M8 23V7M2 13l6-6 6 6M2 1.5h12" />
-        </Arrow>
-      )}
+      <Arrow label="Voltar tudo" onClick={onHome}>
+        <path d="M8 23V7M2 13l6-6 6 6M2 1.5h12" />
+      </Arrow>
     </div>
   );
 }
@@ -52,7 +46,7 @@ function Arrow({
     <button
       type="button"
       onClick={onClick}
-      className="penne-prev penne-fade-in flex items-center gap-2 py-1 text-cream/70 transition-colors hover:text-cream focus-visible:text-cream"
+      className="penne-prev flex items-center gap-2 py-1 text-cream/70 transition-colors hover:text-cream focus-visible:text-cream"
     >
       <span className="block h-5 w-3.5 overflow-hidden">
         <svg

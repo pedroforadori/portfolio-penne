@@ -153,7 +153,6 @@ export default function Home({
       <ViewMenu mode={mode} visible={floatingMenus} onChange={changeMode} />
       <PrevButton
         canGoBack={mode === "slides" && current >= 0}
-        canGoHome={mode === "slides" && current >= 1}
         onBack={goToPrevious}
         onHome={goToIntro}
       />

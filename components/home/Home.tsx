@@ -64,7 +64,13 @@ export default function Home({ sites }: { sites: Site[] }) {
       >
         <Intro active={current === -1} hasSites={sites.length > 0} onStart={goToFirstSite} />
         {sites.map((site, index) => (
-          <SiteSlide key={site.id} site={site} index={index} active={index === current} />
+          <SiteSlide
+            key={site.id}
+            site={site}
+            index={index}
+            active={index === current}
+            near={Math.abs(index - current) === 1}
+          />
         ))}
       </div>
 

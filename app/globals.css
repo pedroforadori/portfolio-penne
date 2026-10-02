@@ -119,6 +119,15 @@ body {
 [data-revealed="true"] .penne-rings {
   animation: penne-rings-pop 450ms var(--ease-out);
 }
+/* Espera acabou mas a imagem ainda está baixando: as alianças pulsam */
+@keyframes penne-rings-wait {
+  50% {
+    opacity: 0.4;
+  }
+}
+[data-waiting="true"] .penne-rings {
+  animation: penne-rings-wait 1s ease-in-out infinite;
+}
 
 /* Revelado: o nome vira contorno pra deixar o site aparecer através dele */
 [data-revealed="true"] .penne-name {

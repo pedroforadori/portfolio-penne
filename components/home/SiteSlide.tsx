@@ -21,38 +21,48 @@ export default function SiteSlide({
   site,
   index,
   active,
+  near,
 }: {
   site: Site;
   index: number;
   active: boolean;
+  // Vizinho do case na tela: pré-carrega o fundo.
+  near: boolean;
 }) {
   const [dwelling, setDwelling] = useState(false);
-  const [revealed, setRevealed] = useState(false);
+  const [dwelled, setDwelled] = useState(false);
+  const [loaded, setLoaded] = useState(!site.imageUrl && !site.fullPage);
+  // Só revela com a imagem inteira: no 4G ela ainda chegaria pela metade.
+  const revealed = dwelled && loaded;
+  // O fundo só entra quando o case chega perto da tela. Todos de uma vez
+  // disputariam a banda e o primeiro demoraria a chegar.
+  const [nearby, setNearby] = useState(false);
+  if ((active || near) && !nearby) setNearby(true);
   const timer = useRef<number | undefined>(undefined);
 
   const startDwell = (e: PointerEvent) => {
     if (e.pointerType !== "mouse") return;
     window.clearTimeout(timer.current);
     setDwelling(true);
-    timer.current = window.setTimeout(() => setRevealed(true), DWELL_MS);
+    timer.current = window.setTimeout(() => setDwelled(true), DWELL_MS);
   };
 
   const stopDwell = () => {
     window.clearTimeout(timer.current);
     setDwelling(false);
-    setRevealed(false);
+    setDwelled(false);
   };
 
   // Em telas de toque não há hover: a "espera" conta enquanto o case está na tela.
   useEffect(() => {
     if (!active || !isTouch()) return;
     const frame = requestAnimationFrame(() => setDwelling(true));
-    const reveal = window.setTimeout(() => setRevealed(true), DWELL_MS);
+    const reveal = window.setTimeout(() => setDwelled(true), DWELL_MS);
     return () => {
       cancelAnimationFrame(frame);
       window.clearTimeout(reveal);
       setDwelling(false);
-      setRevealed(false);
+      setDwelled(false);
     };
   }, [active]);
 
@@ -67,10 +77,11 @@ export default function SiteSlide({
       data-active={active}
       data-dwelling={dwelling}
       data-revealed={revealed}
+      data-waiting={dwelled && !loaded}
       aria-label={site.couple}
       className="penne-slide relative h-dvh snap-start overflow-hidden"
     >
-      <SiteBackground site={site} />
+      {nearby && <SiteBackground site={site} preload={near} onLoad={() => setLoaded(true)} />}
       <div className="penne-veil absolute inset-0 bg-gradient-to-t from-night via-night/35 to-transparent" />
       {/* Separa o cabeçalho da Penne do menu do próprio site quando revelado */}
       <div className="penne-top-veil absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-night/80 to-transparent" />

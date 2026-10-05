@@ -147,14 +147,42 @@ body {
   animation: penne-rings-wait 1s ease-in-out infinite;
 }
 
-/* Revelado: o nome vira contorno pra deixar o site aparecer através dele */
-[data-revealed="true"] .penne-name {
-  color: transparent;
-  -webkit-text-stroke: 1.5px var(--cream);
-  text-shadow: none;
+/* Revelado: o nome gigante some pro site aparecer limpo — cada linha desce
+   um pouco, desfoca e esmaece (a segunda logo depois da primeira) — e volta
+   igual quando o site some. Só some à vista: continua ocupando o lugar,
+   então o mouse segue "em cima" do nome e o site não some. A animação é na
+   .penne-line, porque o span de dentro já tem a animação de entrada. */
+.penne-name .penne-line {
+  transition:
+    opacity 1100ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 1400ms cubic-bezier(0.4, 0, 0.2, 1),
+    filter 1200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
-.penne-name .penne-amp {
-  -webkit-text-stroke: 0;
+[data-revealed="true"] .penne-name .penne-line {
+  opacity: 0;
+  transform: translateY(8%);
+  filter: blur(6px);
+}
+[data-revealed="true"] .penne-name .penne-line + .penne-line {
+  transition-delay: 150ms;
+}
+
+/* ...e aparece pequeno embaixo, logo acima de "Pare o mouse sobre o nome"
+   (desktop) ou ao lado das alianças (toque), entrando enquanto o grande some */
+.penne-mini-name {
+  opacity: 0;
+  transform: translateY(40%);
+  filter: blur(4px);
+  transition:
+    opacity 500ms ease,
+    transform 700ms var(--ease-out),
+    filter 500ms ease;
+}
+[data-revealed="true"] .penne-mini-name {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  transition-delay: 450ms;
 }
 
 /* Entrada do nome quando o case chega na tela */
@@ -375,6 +403,11 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .penne-name .penne-line,
+  .penne-mini-name {
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
+  }
   .penne-prev-arrow {
     animation: none !important;
   }

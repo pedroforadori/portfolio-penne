@@ -62,6 +62,12 @@ export default async function BlogPage() {
               <RollText text="Avaliações" />
             </Link>
           )}
+          <Link
+            href="/dominio"
+            className="penne-roll font-mono text-xs uppercase leading-[1.3] text-cream/70 hover:text-cream"
+          >
+            <RollText text="Domínio" />
+          </Link>
         </nav>
       </header>
 

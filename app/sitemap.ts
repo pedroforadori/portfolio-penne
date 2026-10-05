@@ -27,6 +27,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "yearly" as const,
       priority: 0.8,
     })),
+    {
+      url: `${SITE_URL}/dominio`,
+      changeFrequency: "yearly" as const,
+      priority: 0.6,
+    },
     ...(posts.length > 0
       ? [
           {

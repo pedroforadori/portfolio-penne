@@ -5,7 +5,7 @@ const ITEM =
 const MARK =
   "size-1.5 bg-transparent transition-colors group-hover:bg-cream group-focus-visible:bg-cream";
 
-// Avaliações e Blog depois da abertura: espelho do menu de modos (ViewMenu),
+// Avaliações, Blog e Domínio depois da abertura: espelho do menu de modos (ViewMenu),
 // do lado oposto — meio da tela à esquerda. Só do sm pra cima: no celular os
 // links ficam sempre no header, na posição da abertura. O ■ aparece no hover, já que aqui não há item "ativo". No desktop
 // os links passam por cima do nome gigante do casal: o mix-blend-difference
@@ -21,8 +21,6 @@ export default function SideNav({
   showBlog: boolean;
   onTestimonials: () => void;
 }) {
-  if (!showTestimonials && !showBlog) return null;
-
   return (
     <nav
       aria-label="Menu"
@@ -50,6 +48,10 @@ export default function SideNav({
           Blog
         </Link>
       )}
+      <Link href="/dominio" className={ITEM}>
+        <span aria-hidden className={MARK} />
+        Domínio
+      </Link>
     </nav>
   );
 }

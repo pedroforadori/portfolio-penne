@@ -18,7 +18,20 @@ Os sites de Fernanda & Rafael e de Gabriela & Vinicius funcionam assim: a lista 
 
 <CaseCard slug="fernanda-rafael" />
 
-{/* PENNE: explicar como a Penne monta o PIX nos sites: QR Code e código copia e cola, quem recebe, e se o casal consegue ver quem deu o quê. */}
+Como o código é gerado
+- Não passa por nenhum gateway nem banco intermediário. O site monta sozinho o código "Pix Copia e Cola", seguindo o padrão do Banco Central, a partir da chave Pix dos noivos. A chave usada é a aleatória, para o e-mail não aparecer no site.
+- O QR Code é esse mesmo texto convertido em imagem no servidor. QR e copia e cola são o mesmo código em dois formatos.
+- Existem dois tipos de código:
+  - Por presente: o convidado escolhe o presente e informa o nome (a mensagem é opcional). Isso cria um pedido "pendente" e gera um código com o valor já preenchido. Também vai junto um identificador: os primeiros 25 caracteres do ID do pedido, sem hífens.
+  - Avulso: um QR sem valor, com o identificador LISTANOIVOS, para quem quiser mandar qualquer quantia.
+
+Quem recebe
+- O dinheiro cai direto na conta dos noivos. A Penne nunca recebe nem repassa nada.
+- O Pix não tem taxa, desde que seja utilizado a chave gerada pelo casal.
+- No caso do Stripe que é o meio de pagamento recomendado para cartão, existe uma taxa para usar o PIX de 1,19%.
+
+O casal consegue ver quem deu o quê?
+- Sim, no painel admin criado para cada site.
 
 ## Cotas ou presentes fixos?
 
@@ -45,10 +58,24 @@ Se quiser mais ideias de formato, veja [lista de presentes de casamento: ideias 
 
 Dá. Muitos casais deixam o PIX como principal e aceitam outros formatos para quem prefere. Fernanda & Rafael dividiram a lista entre a viagem de lua de mel e a casa nova, o que dá escolha ao convidado sem complicar.
 
-{/* PENNE: contar uma dúvida comum dos casais sobre PIX (segurança, taxas, privacidade de quem presenteia) e como a Penne responde. */}
+### O dinheiro do Pix passa pela Penne?
+Não. O QR Code e o código "copia e cola" do site são gerados com a chave Pix de vocês. O convidado paga direto do banco dele para a conta de vocês, sem intermediário. A Penne não recebe, não guarda e não repassa nenhum valor.
+
+### É seguro para o convidado?
+Sim. Antes de confirmar o pagamento, o app do banco mostra o nome de quem vai receber. Basta o convidado conferir se aparece o nome de vocês. No site, usamos a chave aleatória, aquela sequência de letras e números, e não o CPF, o e-mail ou o telefone. Assim, nenhum dado pessoal de vocês fica exposto.
+
+### O Pix tem taxa?
+Não. O Pix entre pessoas é gratuito, e o dinheiro cai na hora na conta de vocês.
+
+### E o cartão de crédito?
+O cartão tem taxa. O pagamento passa pela Stripe, uma das maiores empresas de pagamento online do mundo, que cobra 3,99% + R$ 0,39 por compra com cartão brasileiro (valores da tabela da Stripe na data deste post). Sem nenhum ajuste, um presente de R$ 200 pago no cartão chegaria para vocês como cerca de R$ 191,63.
+
+### Dá para não perder esse valor?
+Dá: é só somar a taxa ao preço do presente. Na Penne, acrescentamos 5% e arredondamos para cima, em reais inteiros. O convidado paga um pouco mais, e vocês recebem o valor cheio:
+
+### E se o convidado usar um cartão do exterior?
+A Stripe cobra 2% a mais em cartões internacionais. Com o acréscimo de 5%, vocês recebem cerca de 1% a menos que o valor da lista: uns R$ 197 em um presente de R$ 200. Se muitos convidados morarem fora, dá para aumentar o acréscimo.
 
 ## Como avisar os convidados sobre a lista?
 
 Uma frase gentil no convite ou no site resolve: a presença é o maior presente, e a lista existe para quem quiser mimar os noivos. Com o site em um único endereço, o convidado encontra a lista, a confirmação de presença e os detalhes da festa no mesmo lugar.
-
-{/* PENNE: opcional, um print da página de lista de um dos sites para ilustrar o QR Code. */}

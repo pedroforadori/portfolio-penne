@@ -24,7 +24,7 @@ Status: `pendente`, `rascunho PR #N` (o agente marca), `publicado`, `descartado`
 
 - [publicado] Site de casamento grátis ou pago: o que muda — palavra-chave: "site de casamento grátis" — cases: camila-victor — comparar com honestidade, sem falar mal de plataformas
 - [rascunho PR #2] PIX na lista de presentes: como funciona e o que evitar — palavra-chave: "lista de casamento pix" — cases: fernanda-rafael, gabriela-vinicius
-- [pendente] Cotas de lua de mel: como montar a lista — palavra-chave: "cotas lua de mel" — cases: gabriela-vinicius
+- [rascunho PR #3] Cotas de lua de mel: como montar a lista — palavra-chave: "cotas lua de mel" — cases: gabriela-vinicius
 - [pendente] Quando mandar o save the date e o convite — palavra-chave: "save the date casamento" — cases: camila-victor
 - [pendente] Como contar a história do casal no site — palavra-chave: "história do casal site de casamento" — cases: tanne-pedro, fernanda-rafael
 - [pendente] Lista de presentes engraçada: ideias e como acertar o tom — palavra-chave: "lista de presentes de casamento engraçada" — cases: tanne-pedro

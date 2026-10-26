@@ -26,7 +26,7 @@ Status: `pendente`, `rascunho PR #N` (o agente marca), `publicado`, `descartado`
 - [rascunho PR #2] PIX na lista de presentes: como funciona e o que evitar — palavra-chave: "lista de casamento pix" — cases: fernanda-rafael, gabriela-vinicius
 - [rascunho PR #3] Cotas de lua de mel: como montar a lista — palavra-chave: "cotas lua de mel" — cases: gabriela-vinicius
 - [rascunho PR #4] Quando mandar o save the date e o convite — palavra-chave: "save the date casamento" — cases: camila-victor
-- [pendente] Como contar a história do casal no site — palavra-chave: "história do casal site de casamento" — cases: tanne-pedro, fernanda-rafael
+- [rascunho PR #5] Como contar a história do casal no site — palavra-chave: "história do casal site de casamento" — cases: tanne-pedro, fernanda-rafael
 - [pendente] Lista de presentes engraçada: ideias e como acertar o tom — palavra-chave: "lista de presentes de casamento engraçada" — cases: tanne-pedro
 - [pendente] Domínio próprio para o site de casamento — palavra-chave: "domínio site de casamento" — cases: camila-victor
 - [pendente] Dress code no casamento: como explicar no site — palavra-chave: "dress code casamento" — cases: vania-mauro, camila-victor
